@@ -25,7 +25,39 @@
 <meta name="description" content="贝登医疗（vedeng.com）-南京贝登医疗股份有限公司旗下专业的医疗器械供应链电商平台，拥有临床检验、手术急救、消毒灭菌、医用电子、医用耗材等8大产品线，100多个知名品牌，30000个好产品，专业报价选型，提高采购效率，降低采购成本，让医疗器械采购更简单！">
 <script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/yii.js.下载"></script>
 <script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/jquery.SuperSlide.2.1.1.js.下载"></script>
-<script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/tab-change.js.下载"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/layer.ext.js.下载" id="layui_layer_extendlayerextjs"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/pc_nb.js.下载" charset="UTF-8"></script></head>
+<script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/tab-change.js.下载"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/layer.ext.js.下载" id="layui_layer_extendlayerextjs"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/pc_nb.js.下载" charset="UTF-8"></script>
+<style type="text/css">
+    .servicebox{ position:fixed; right:3px; top:90px; width:68px; padding:16px; border:1px solid #0089E0; border-radius:3px; background:#fff; box-shadow:0 0 3px rgba(0,0,0,0.7);}
+.servicebox .ul > li{ text-align:center; padding-bottom:12px; position:relative;}
+.servicebox .ul > li:last-child{ padding-bottom:0;}
+.servicebox .ul > li > a{ display:block; width:68px; height:68px; background:#0089E0; border-radius:34px;}
+.servicebox .ul > li > img{ width:68px; height:68px; vertical-align:top;}
+.servicebox .ul > li > span{ line-height:18px; font-weight:bold; color:#0089E0; padding:5px 0; display:block;}
+.servicebox .ul > li:not(:last-child):hover > a{ background:#FF9A00;}
+.servicebox .ul > li:not(:last-child):hover > span{ color:#FF9A00;}
+
+.servicebox li .contactbox{ position:absolute; right:80px; top:0; width:190px; padding:0 20px; background:#fff; border:1px solid #FF9A00; border-radius:3px; box-shadow:0 0 3px rgba(0,0,0,0.7); text-align:left; display:none;}
+.servicebox li .contactbox .wrap{ position:relative;}
+.servicebox li .contactbox .x,
+.servicebox li .contactbox .y{ position:absolute; font-size:40px; top:9px;}
+.servicebox li .contactbox .x{ color:#fff; right:-31px; z-index:11;}
+.servicebox li .contactbox .y{ color:#FF9A00; right:-32px; z-index:10;}
+
+.servicebox li .contactbox .h1{ font-size:20px; line-height:56px; color:#393A3A; text-align:center;}
+.servicebox li .contactbox dd{ padding:15px 0; border-bottom:1px solid #EBEAE7;}
+.servicebox li .contactbox dd .ti{ font-size:12px;}
+.servicebox li .contactbox dd span{ display:block; color:#0089E0; font-size:16px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+.servicebox li .qqlist{ padding:20px 0 50px;}
+.servicebox li .qqlist a{ display:inline-block; text-align:center; font-size:12px;}
+.servicebox li .qqlist span{ display:block;}
+.servicebox li .qqlist a:nth-child(2){ padding:0 8px;}
+.servicebox li .qqlist a:hover{ color:#0089E0;}
+
+.servicebox li:nth-child(2):hover .contactbox{ display:block;}
+
+
+</style>
+</head>
 <body>
               
     <!--div class="header-full-ad img-box">
@@ -1590,14 +1622,15 @@
             </div>
                     </div>
     </div>
-    <ul class="side-toolbar toolbar-side">
+    <!-- this is the part of qq and gotop in the side-->
+    <!-- <ul class="side-toolbar toolbar-side">
         <!-- li><a class="side-toolbar-icon2 side-toolbar-icon-shangqiao" id="BDBridgeFixedWrap" title="站内在线客服"></a></li-->
         <!-- li><a href="tencent://message/?uin=800072291&menu=yes" class="side-toolbar-icon2 side-toolbar-icon-qq" title="QQ在线客服"></a></li-->
-        <li><a target="_blank" rel="nofollow" href="http://b.qq.com/webc.htm?new=0&amp;sid=800072291&amp;o=http%3A%2F%2Fwww.vedeng.com&amp;q=7" class="side-toolbar-icon2 side-toolbar-icon-qq" title="QQ在线客服"></a></li>
-        <li class="back-top" style="display: none;"><a href="javascript:void(0);" class="side-toolbar-icon2 side-toolbar-icon-backtop"></a></li>
-    </ul>
-</div>
-<div class="servicebox">
+        <!-- <li><a target="_blank" rel="nofollow" href="http://b.qq.com/webc.htm?new=0&amp;sid=800072291&amp;o=http%3A%2F%2Fwww.vedeng.com&amp;q=7" class="side-toolbar-icon2 side-toolbar-icon-qq" title="QQ在线客服"></a></li>
+        <li class="back-top" style="display: none;"><a href="javascript:void(0);" class="side-toolbar-icon2 side-toolbar-icon-backtop"></a></li> -->
+    <!-- </ul> - -->->
+
+    <div class="servicebox">
     
         <ul class="ul">
             <li style="display:none;">
@@ -1653,6 +1686,8 @@
         </ul>
     
 </div>
+</div>
+
 <!--页脚结束-->
       <script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/index.js.下载"></script>    <script>
         var _hmt = _hmt || [];
