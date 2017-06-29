@@ -10,7 +10,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, 微软雅黑, 宋体, Helvetica, sans-serif;
+    font-family: Arial, å¾®è½¯é›…é»‘, å®‹ä½“, Helvetica, sans-serif;
     /*-moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing:antialiased;*/
     color: #444;
@@ -132,7 +132,7 @@ li {
 
 .title,
 dt {
-    font-family: Arial, 微软雅黑, 宋体, Helvetica, sans-serif;
+    font-family: Arial, å¾®è½¯é›…é»‘, å®‹ä½“, Helvetica, sans-serif;
 }
 
 .hidden {
@@ -514,7 +514,7 @@ a.active .sorting-desc {
 /*header-nav*/
 
 .header .header-nav {
-    background-color: #0099ff;
+    background-color:#183078;
     height: 45px;
     margin-top: 0px;
 }
@@ -531,7 +531,7 @@ a.active .sorting-desc {
     height: 45px;
     position: relative;
     width: 190px;
-    background: #008ae6;
+    background:#183078;
     z-index: 1000;
 }
 
@@ -564,7 +564,7 @@ a.active .sorting-desc {
 
 .header .header-nav .main-nav li:hover,
 .header .header-nav .main-nav li.active {
-    background-color: #008ae6;
+    background-color:#183078;
 }
 
 .header .header-nav .main-nav li.active {
@@ -1410,11 +1410,11 @@ a.active .sorting-desc {
 }
 
 .filter-item.item-tag.active {
-    border-color: #0099ff;
+    border-color:#183078;
 }
 
 .filter-item.item-tag.active .close {
-    background-color: #0099ff;
+    background-color:#183078;
     color: #fff;
 }
 
@@ -1450,7 +1450,7 @@ table.filter-table tr td {
     font-weight: normal;
     padding: 5px 10px;
     vertical-align: top;
-    font-family: Arial, 宋体, 微软雅黑, Helvetica, sans-serif;
+    font-family: Arial, å®‹ä½“, å¾®è½¯é›…é»‘, Helvetica, sans-serif;
 }
 
 table.filter-table tr td.title {
@@ -1460,7 +1460,7 @@ table.filter-table tr td.title {
     text-align: left;
     line-height: 2.4;
     width: 100px;
-    font-family: Arial, 宋体, 微软雅黑, Helvetica, sans-serif;
+    font-family: Arial, å®‹ä½“, å¾®è½¯é›…é»‘, Helvetica, sans-serif;
 }
 
 table.filter-table tr td.actions {
@@ -1958,7 +1958,7 @@ table.product-list-table .product-hot {
 
 .main-categories-list-content .sub-category dd,
 .main-categories-list-content .sub-category dt {
-    font-family: Arial, 宋体, 微软雅黑, Helvetica, sans-serif;
+    font-family: Arial, å®‹ä½“, å¾®è½¯é›…é»‘, Helvetica, sans-serif;
 }
 
 .header-categories {}
@@ -2358,7 +2358,7 @@ table.product-list-table .product-hot {
 }
 
 .brands-list li .brand-inbox span.brand-name {
-    font-family: Arial, 宋体, Helvetica, sans-serif;
+    font-family: Arial, å®‹ä½“, Helvetica, sans-serif;
     display: block;
     line-height: 2.5;
 }
@@ -2435,7 +2435,7 @@ table.product-list-table .product-hot {
 .footer .about-links .nav,
 .footer .about-links .copyright,
 .page-side .product-list-side .title {
-    font-family: Arial, 宋体, Helvetica, sans-serif, Helvetica, sans-serif;
+    font-family: Arial, å®‹ä½“, Helvetica, sans-serif, Helvetica, sans-serif;
 }
 
 .page-side .box-brand-catgory-search {
@@ -2493,7 +2493,7 @@ table.product-list-table .product-hot {
 }
 
 .webtree-page {
-    font-family: Arial, 宋体, Helvetica, sans-serif;
+    font-family: Arial, å®‹ä½“, Helvetica, sans-serif;
     font-size: 12px;
     margin-top: 10px;
 }

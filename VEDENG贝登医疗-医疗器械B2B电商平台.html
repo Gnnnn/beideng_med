@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=1190px">
     
     <link rel="stylesheet" href="./VEDENG贝登医疗-医疗器械B2B电商平台_files/style-2016.css">
-    <script charset="utf-8" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/b.js.下载"></script><script charset="utf-8" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/lxb.js.下载"></script><script charset="utf-8" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/v.js.下载"></script><script type="text/javascript" async="" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/4083ef74.js.下载"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/hm.js.下载"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/jquery-1.11.3.min.js.下载" type="text/javascript"></script>
+    <script charset="utf-8" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/b.js.下载"></script><script charset="utf-8" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/lxb.js.下载"></script><script charset="utf-8" src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/v.js.下载"></script><script type="text/javascript" async src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/4083ef74.js.下载"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/hm.js.下载"></script><script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/jquery-1.11.3.min.js.下载" type="text/javascript"></script>
     <script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/jquery.aimmenu.js.下载" type="text/javascript"></script>
     <script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/jquery.SuperSlide.2.1.1.js.下载" type="text/javascript"></script>
     <script src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/frame.js.下载" type="text/javascript"></script>
@@ -64,13 +64,11 @@
         <div class="container">
             <div class="header-bar-right">
                 <ul>
-                <li>欢迎来到贝登医疗</li>
                                         <li><a href="http://passport.vedeng.com/login.html?backurl=http%3A%2F%2Fwww.vedeng.com%2F" class="link-outstanding">请登录</a></li>
                     <li><a href="http://passport.vedeng.com/register.html?backurl=http%3A%2F%2Fwww.vedeng.com%2F">免费注册</a></li>
-                                    </ul>
-                    <li><a href="http://www.vedeng.com/">首页</a></li>
                     <li><a href="http://www.vedeng.com/my/account/info.html">我的账号</a></li>
                     <li><a href="http://www.vedeng.com/my/favorite.html">我的关注<em>0</em></a></li> 
+                    <li><a href="http://www.vedeng.com/my/favorite.html">系统公告<em>0</em></a></li> 
                 </ul>
             </div>
         </div>
@@ -80,11 +78,11 @@
         <div class="container">
             <h1 id="logo"><a href="http://www.vedeng.com/"><img src="./VEDENG贝登医疗-医疗器械B2B电商平台_files/site_logo.png" alt="贝登医疗 logo"></a>
             </h1>
-            <div class="header-search">
+            <div class="header-search" style="margin-left:610px">
                 <div class="form-group">
                   <form action="http://www.vedeng.com/search.html" method="get" id="searchForm" onsubmit="return searchValida(this);">
-                  <input class="keyword input_text" type="text" name="kw" id="" placeholder="输入产品名称或型号" autocomplete="off" disableautocomplete="" value="">
-                  <input class="search" type="submit" value="搜索">
+                  <input class="keyword input_text" type="text" name="kw" id="" placeholder="输入产品名称或型号" autocomplete="off" disableautocomplete="" value="" style="width:300px;">
+                  <input class="search" type="submit" value="搜索" >
                   </form>
                 </div>
                 <div id="searchkey_result_1" class="searchkey_result searchkey_result_hidden">
@@ -95,20 +93,21 @@
                     </div>
                 </div>
             </div>
-            
-            
             <div class="clear"></div>
         </div>
-        
     </div>
-
     <!--导航栏-->
     <div class="header-nav">
         <div class="container">
             <div class="ve-row">
+                <!-- EOF 分类导航 -->
+                <ul class="main-nav">
+                    <li class="active"><a href="http://www.vedeng.com/">首页</a></li>
+                </ul>
+                      
                 <!-- BOF 分类导航 -->
                 <div class="header-categories">
-                  <h3 class="header-categories-header"><i class="iconfont iconfont-sort"></i>产品分类</h3>
+                  <h3 class="header-categories-header"><i class="iconfont iconfont-sort"></i>找产品</h3>
                   <!--分类导航树-->
                   <ul class="main-categories-list hide" dataurl="/default/category-tree.html" style="display: none;">                                                                                                                                                                                                   <li class="item" id="menuItem_1">
                     <a href="/category-1.html" class="category-trigger"><i class="iconfont iconfont-cate-1"></i>临床检验</a>
@@ -1048,25 +1047,99 @@
                     </ul>
                   <!--分类导航树结束-->
                 </div>
-            
-                <!-- EOF 分类导航 -->
-                <ul class="main-nav">
-                    <li class="active"><a href="http://www.vedeng.com/">首页</a></li>
-                    <!--  <li
-                        ><a href="/caigou/add.html">免费找货</a></li>-->
-                    <li><a href="http://www.vedeng.com/category.html">找产品</a></li>
+                
+                     <ul class="main-nav">
                     <li><a href="http://www.vedeng.com/brand.html">找品牌</a></li>
-                        <li><a href="http://www.vedeng.com/help-11.html">关于我们</a></li>
-                    <!-- <li><a href="http://info.vedeng.com">资讯</a></li>
-                    <li
-                        ><a href="/default/wx-public.html">微信服务</a></li>
-                    --> 
-                </ul>
+                    </ul>
+                                 <!-- BOF 分类导航 -->
+                <div class="header-categories">
+                  <h3 class="header-categories-header"><i class="iconfont iconfont-sort"></i>找渠道</h3>
+                  <!--分类导航树-->
+                  <ul class="main-categories-list hide" dataurl="/default/category-tree.html" style="display: none;">                                                           <li class="item" id="menuItem_1">
+                    <a href="/category-1.html" class="category-trigger"><i class="iconfont iconfont-cate-1"></i>我要推广</a>
+                    <div class="main-categories-list-content" id="menuSub_1" style="top: -2px; display: none;">
+</div></li>                                                                 <li class="item" id="menuItem_3">
+                    <a href="/category-9.html" class="category-trigger"><i class="iconfont iconfont-cate-3"></i>我要购买</a>
+                    <div class="main-categories-list-content" id="menuSub_3" style="top: -2px; display: none;">
+                       </div></li>
+                    </ul>
+                  <!--分类导航树结束-->
+                </div>
+             <!-- BOF 分类导航 -->
+                <div class="header-categories">
+                  <h3 class="header-categories-header"><i class="iconfont iconfont-sort"></i>帮助中心</h3>
+                  <!--分类导航树-->
+                  <ul class="main-categories-list hide" dataurl="/default/category-tree.html" style="display: none;">                                                                                                                                                                        <li class="item" id="menuItem_1">
+                    <a href="/category-1.html" class="category-trigger"><i class="iconfont iconfont-cate-1"></i>新手指南</a>
+                    <div class="main-categories-list-content" id="menuSub_1" style="top: -2px; display: none;">
+                        <div class="category-main">
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-10.html">用户注册</a>
+                                </dt>
+                            </dl>
+                            </div>
+                            </div>
+                            </li>
+                                                                     <li class="item" id="menuItem_2">
+                    <a href="/category-2.html" class="category-trigger"><i class="iconfont iconfont-cate-2"></i>贝登服务</a>
+                    <div class="main-categories-list-content" id="menuSub_2" style="top: -2px; display: none;">
+                        <div class="category-main">
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-13.html">服务协议</a>
+                                </dt>
+                            </dl></div></div></li>                                                                 <li class="item" id="menuItem_3">
+                    <a href="/category-9.html" class="category-trigger"><i class="iconfont iconfont-cate-3"></i>信息安全</a>
+                    <div class="main-categories-list-content" id="menuSub_3" style="top: -2px; display: none;">
+                        <div class="category-main">
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-39.html">信息安全</a>
+                                </dt>                             
+                            </dl>
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-211.html">免责声明</a>
+                                </dt></dl></div></div></li>
+                                                                                                                                                                      <li class="item" id="menuItem_4">
+                    <a href="/category-3.html" class="category-trigger"><i class="iconfont iconfont-cate-4"></i>服务中心</a>
+                    <div class="main-categories-list-content" id="menuSub_4" style="top: -2px; display: none;">
+                        <div class="category-main">
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-115.html">隐私声明</a>
+                                </dt>
+                               
+                            </dl>
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-110.html">法律声明</a>
+                                </dt>
+                               
+                            </dl>
+                                                            <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-108.html">联系我们</a>
+                                </dt>
+                            </dl>
+                                    <dl class="sub-category">
+                                <dt>
+                                    <a href="/category-108.html">关于我们</a>
+                                </dt>
+                            </dl>
+                                
+                        </div>
+                    </div>
+                    </li> 
+                    </ul>
+                  <!--分类导航树结束-->
+                </div>
+                <!-- EOF 分类导航 -->
              </div> 
         </div>
     </div>
     <!--EOF 导航栏-->
-    
 </div>
 <!--头部结束-->
       
@@ -1076,15 +1149,15 @@
         <div class="bd" style="height:500px;">
             <div class="tempWrap" style="overflow:hidden; position:relative; width:1349px"><div class="tempWrap" style="overflow:hidden; position:relative; width:1349px"><ul style="width: 6745px; left: -5396px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
       
-        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/20170216090810810.jpg"></a></li>
+        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="file:///G:/GITHUB/beideng_med/%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/20170216090810810.jpg"></a></li>
       
-        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/201702231716451645.jpg"></a></li>
+        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="file:///G:/GITHUB/beideng_med/%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/201702231716451645.jpg"></a></li>
       
-        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/201702161745214521.jpg"></a></li>
+        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="file:///G:/GITHUB/beideng_med/%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/201702161745214521.jpg"></a></li>
       
-        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/201611281540104010.jpg"></a></li>
+        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="file:///G:/GITHUB/beideng_med/%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/201611281540104010.jpg"></a></li>
       
-        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/2016120909060161.jpg"></a></li>
+        <li style="float: left; width: 1349px;"><a href="http://edyscm.com/#"><img style="float: left; width: 1349px;" src="file:///G:/GITHUB/beideng_med/%E6%B7%B1%E5%9C%B3%E5%B8%82%E6%98%93%E8%BE%BE%E6%81%92%E9%80%9A%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8_files/2016120909060161.jpg"></a></li>
             
       </ul></div></div>
 
