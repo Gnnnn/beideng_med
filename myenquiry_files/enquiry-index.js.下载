@@ -1,0 +1,67 @@
+function selectAll(elem){
+	if($(elem).is(':checked')){
+		$("input[type='checkbox']").prop("checked",true);
+	}else{
+		$("input[type='checkbox']").removeAttr('checked');
+	}
+}
+
+function del(enquiry_id){
+	if(enquiry_id){
+		index = layer.confirm('确定删除该询价？', {
+			btn: ['确定','取消'], //按钮
+			shade: false //不显示遮罩
+		}, function(){
+			$.ajax({
+				type : 'get',
+				url : '/my/enquiry/ajax-del-enquiry.html',
+				data : {
+					'enquiry_id' : enquiry_id,
+				},
+				dataType : 'json',
+				success : function(data) {
+					if(data.code == 0){
+						location.reload();
+					}else{
+						layer.msg(data.msg);
+					}
+				}
+			});
+		}, function(){
+			layer.close(index);
+		});
+	}
+}
+
+function delAll(){
+	if($("input[name='ids[]']:checked").length <=0 ){
+		layer.msg("请选择要删除的询价");
+		return false;
+	}
+	
+	index = layer.confirm('确定要删除选中的询价？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var ids = '';
+		$.each($("input[name='ids[]']:checked"),function(i,n){
+			if(i+1 == $("input[name='ids[]']:checked").length){
+				ids += $(this).val();
+			}else{
+				ids += $(this).val()+"_";
+			}
+		});
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+		   url: "/my/enquiry/ajax-delall-enquiry.html",
+		   data: {'ids':ids,'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+		     location.reload();
+		   }
+		});
+	}, function(){
+	    layer.close(index);
+	});
+}

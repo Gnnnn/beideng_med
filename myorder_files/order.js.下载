@@ -1,0 +1,95 @@
+/**
+ * 取消订单
+ * @param orders_id
+ */
+var index;
+function cancelOrder(orders_id) {
+	index = layer.confirm('确定要取消订单？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type : 'post',
+			url : '/my/order/ajax-order-cancel.html',
+			data : {
+				'orders_id' : orders_id,
+				'_csrf':_csrf
+			},
+			dataType : 'json',
+			success : function(data) {
+				layer.msg(data.msg);
+				location.reload();
+			}
+		});
+	}, function(){
+	    layer.close(index);
+	});
+}
+
+/**
+ * 确认收货
+ * @param orders_id
+ */
+function confirmReceipt(orders_id){
+	var _csrf = $("#_csrf").val();
+	if(orders_id > 0){
+		$.ajax({
+			type:'post',
+			url:'/my/order/ajax-confirm-receipt.html',
+			data:{'orders_id':orders_id,'_csrf':_csrf},
+			dataType:'json',
+			success:function(data){
+				location.reload();
+			}
+		});
+	}
+}
+
+/**
+ * 删除订单
+ * @param orders_id
+ */
+function delOrder(orders_id){
+	index = layer.confirm('确定要删除订单？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type : 'post',
+			url : '/my/order/ajax-order-del.html',
+			data : {
+				'orders_id' : orders_id,
+				'_csrf':_csrf
+			},
+			dataType : 'json',
+			success : function(data) {
+				layer.msg(data.msg);
+				location.reload();
+			}
+		});
+	}, function(){
+	    layer.close(index);
+	});
+}
+
+/**
+ * 再次购买
+ * @param orders_id
+ */
+function buyAgain(orders_id){
+	var _csrf = $("#_csrf").val();
+	$.ajax({
+		type : 'post',
+		url : '/my/order/ajax-buy-again.html',
+		data : {
+			'orders_id' : orders_id,
+			'_csrf':_csrf
+		},
+		dataType : 'json',
+		success : function(data) {
+			location.href="/cart/index.html";
+		}
+	});
+}

@@ -1,0 +1,120 @@
+/**
+ * global library
+ * John
+ */
+var configJs = '';
+$.ajax({
+	url: "/js-config.html",
+	async: true,
+	dataType:'json',
+	success:function(data){
+		 configJs = data;
+		}
+	}); 
+	
+var VedengJs = function(){};
+
+///////	    
+VedengJs.prototype.popError = function (obj,message){
+	var messageBox= $(obj).next('span');
+	if(typeof(messageBox.html()) == 'undefined'){
+		$(obj).after(this.getErrHtml(message));
+		}
+		else{
+			$(messageBox).removeClass('text-danger');
+			$(messageBox).addClass('text-danger');
+			messageBox.html(message);
+		}
+	}
+///////	    
+VedengJs.prototype.popMessage = function (obj,message){
+	var messageBox= $(obj).next('span');
+	if(typeof(messageBox.html()) == 'undefined'){
+		$(obj).after(this.getErrHtml(message));
+			$(obj).next('span').removeClass('text-danger');
+		}
+		else{
+			$(messageBox).removeClass('text-danger');
+			messageBox.html(message);
+		}
+	}
+////////	
+VedengJs.prototype.removeError = function (obj){
+	var messageBox= $(obj).next('span');
+	$(messageBox).remove();
+	}
+
+////////
+VedengJs.prototype.getErrHtml = function (message){
+	var errTpl = '<span class="validation-message text-danger">{error}</span>';
+	return errTpl.replace(/\{error\}/g, message);
+	}
+	
+///////
+VedengJs.prototype.getMillisecond = function (){
+	date = new Date();
+	return date.getTime()+''+date.getMilliseconds();
+	}
+	
+//关闭错误提示
+VedengJs.prototype.closeError = function (obj,content){
+	$(obj).parent('.input-content').removeClass('input-error');
+	$(obj).parent().children('.input-icon').hide();
+	$(obj).parent().children('.error-text').hide();
+	}
+
+//显示成功信息
+VedengJs.prototype.openRight = function(obj,content,noIcon){
+	var inputIconObj = $(obj).parent().children('.input-icon');
+	var errorTextObj = $(obj).parent().children('.error-text');
+		
+	if(errorTextObj.length < 1 ){
+		$(obj).after("<span class=\"error-text\"></span>");
+		errorTextObj = $(obj).parent().children('.error-text');
+		}
+	
+	$(obj).parent('.input-content').removeClass('input-error');
+	if(noIcon !== true){
+		if(inputIconObj.length < 1 ){
+			$(obj).after("<i class=\"input-icon iconfont iconfont-roundclosefill\"></i>");
+			inputIconObj = $(obj).parent().children('.input-icon');
+		}
+		$(inputIconObj).show();
+		$(inputIconObj).removeClass('iconfont-roundclosefill');
+		$(inputIconObj).addClass('iconfont-roundcheckfill text-success');
+	}
+	else{
+		$(inputIconObj).hide();
+		}
+	
+	$(errorTextObj).hide();
+	}
+
+//显示错误信息
+VedengJs.prototype.openError = function(obj,content,noIcon){
+	var inputIconObj = $(obj).parent().children('.input-icon');
+	var errorTextObj = $(obj).parent().children('.error-text');
+		
+	if(errorTextObj.length < 1 ){
+		$(obj).after("<span class=\"error-text\"></span>");
+		errorTextObj = $(obj).parent().children('.error-text');
+		}
+	
+	$(obj).parent('.input-content').addClass('input-error');
+	if(noIcon !== true){
+		if(inputIconObj.length < 1 ){
+			$(obj).after("<i class=\"input-icon iconfont iconfont-roundclosefill\"></i>");
+			inputIconObj = $(obj).parent().children('.input-icon');
+		}
+		$(inputIconObj).show();
+		$(inputIconObj).removeClass('iconfont-roundcheckfill text-success');
+		$(inputIconObj).addClass('iconfont-roundclosefill');
+		}
+	
+	$(errorTextObj).show();
+	
+	if(typeof(content) !== 'undefinded' && content != ''){
+		$(errorTextObj).html(content);
+		}
+	
+	}	

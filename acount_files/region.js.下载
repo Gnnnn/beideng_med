@@ -1,0 +1,122 @@
+$(document).ready(function(e) {
+	initRegion();
+	setTimeout(function(){initCity();},1000);
+	setTimeout(function(){initZone();},1000);
+	$("select[name='province']").change(function(){
+		var region_id = $(this).val();
+		if(region_id > 0){
+			$.ajax({
+				type : "POST",
+				url : "/region/ajax-get-region.html",
+				data :{'region_id':region_id},
+				dataType : 'json',
+				success : function(data) {
+					$option = "<option value='0'>请选择</option>";
+					$.each(data,function(i,n){
+						$option += "<option value='"+data[i]['region_id']+"'>"+data[i]['region_name']+"</option>";
+					});
+					$("select[name='city'] option:gt(0)").remove();
+					$("select[name='zone'] option:gt(0)").remove();
+					$("select[name='city']").html($option);
+					$("select[name='zone']").html("<option value='0'>请选择</option>");
+				}
+			});
+		}else if(region_id==0){
+			$("select[name='city']").html("<option value='0'>请选择</option>");
+			$("select[name='zone']").html("<option value='0'>请选择</option>");
+		}
+	});
+	
+	$("select[name='city']").change(function(){
+		var region_id = $(this).val();
+		if(region_id > 0){
+			$.ajax({
+				type : "POST",
+				url : "/region/ajax-get-region.html",
+				data :{'region_id':region_id},
+				dataType : 'json',
+				success : function(data) {
+					$option = "<option value='0'>请选择</option>";
+					$.each(data,function(i,n){
+						$option += "<option value='"+data[i]['region_id']+"'>"+data[i]['region_name']+"</option>";
+					});
+					$("select[name='zone'] option:gt(0)").remove();
+					$("select[name='zone']").html($option);
+				}
+			});
+		}
+	});
+});
+
+/**
+ * 地区初始化
+ */
+function initRegion() {
+	$.ajax({
+		type : "POST",
+		url : "/region/ajax-get-region.html",
+		data :{'region_id':0},
+		dataType : 'json',
+		success : function(data) {
+			$option = "";
+			$.each(data,function(i,n){
+				$option += "<option value='"+data[i]['region_id']+"'>"+data[i]['region_name']+"</option>";
+			});
+			$("select[name='city'] option:gt(0)").remove();
+			$("select[name='zone'] option:gt(0)").remove();
+			$("select[name='province']").addClass("ve-form ve-select-inline");
+			$("select[name='city']").addClass("ve-form ve-select-inline");
+			$("select[name='zone']").addClass("ve-form ve-select-inline");
+			$("select[name='province']").append($option);
+		}
+	});
+}
+
+/*
+ * CITY初始化
+ */
+function initCity(){
+	var curCity=$("#city").val();
+	if(curCity>0){
+		var province=$("#province").val();
+		$.ajax({
+			type : "POST",
+			url : "/region/ajax-get-region.html",
+			data :{'region_id':province},
+			dataType : 'json',
+			success : function(data) {
+				$option = "";
+				$.each(data,function(i,n){
+					if(data[i]['region_id']!=curCity)
+					$option += "<option value='"+data[i]['region_id']+"'>"+data[i]['region_name']+"</option>";
+				});
+				$("select[name='city']").append($option);
+			}
+		});
+	}
+}
+
+/*
+ * ZONE初始化
+ */
+function initZone(){
+	var curZone=$("#zone").val();
+	if(curZone>0){
+		var city=$("#city").val();
+		$.ajax({
+			type : "POST",
+			url : "/region/ajax-get-region.html",
+			data :{'region_id':city},
+			dataType : 'json',
+			success : function(data) {
+				$option = "";
+				$.each(data,function(i,n){
+					if(data[i]['region_id']!=curZone)
+					$option += "<option value='"+data[i]['region_id']+"'>"+data[i]['region_name']+"</option>";
+				});
+				$("select[name='zone']").append($option);
+			}
+		});
+	}
+}
+

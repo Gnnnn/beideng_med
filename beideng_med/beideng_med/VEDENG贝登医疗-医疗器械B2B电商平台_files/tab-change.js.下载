@@ -1,0 +1,67 @@
+// javascript
+// @author John
+// @date 2016-04-25
+/**
+    Jquery plugin
+
+    e.g. use
+
+    $('.tab-change').tabChanges({
+        event: 'hover'
+    });
+
+    or 
+
+    $('.tab-change').tabChanges();
+*/
+(function($) {
+
+    $.fn.tabChanges = function(options) {
+
+        var tabObj = $(this);
+        var tabTitle = $(tabObj).children('.tab').children('ul').children('li');
+        var tabContent = $(tabObj).children('.content');
+
+        if (options.event == 'hover') {
+            options.event = 'mouseenter';
+        }
+
+        if (typeof(options.event) == 'undefined') {
+            options.event = 'click';
+        }
+
+        $(tabTitle).each(function() {
+            if ($(tabTitle).index(this) == 0) {
+                $(this).addClass('selected');
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
+        $(tabContent).each(function() {
+            if ($(tabContent).index(this) != 0) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+
+        $(tabTitle).bind(options.event, function() {
+            var currentIndex = $(tabTitle).index(this);
+            $(tabTitle).each(function() {
+                if ($(tabTitle).index(this) != currentIndex) {
+                    $(this).removeClass('selected');
+                } else {
+                    $(this).addClass('selected');
+                }
+            });
+
+            $(tabContent).each(function() {
+                if ($(tabContent).index(this) != currentIndex) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    }
+})(jQuery);

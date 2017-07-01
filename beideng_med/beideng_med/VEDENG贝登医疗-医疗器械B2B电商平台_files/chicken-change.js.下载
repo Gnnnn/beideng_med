@@ -1,0 +1,67 @@
+// javascript
+// @author John
+// @date 2017-01-22
+/**
+    Jquery plugin
+
+    e.g. use
+
+    $('.chicken-change').moveChicken({
+        event: 'hover'
+    });
+
+    or 
+
+    $('.chicken-change').moveChicken();
+*/
+(function($) {
+
+    $.fn.moveChicken = function(options) {
+
+        var thisObj = $(this);
+        var bigSize = 160; //大图
+        var smallSize = 60; //小图
+        var timeoutVal = 15; //时间，越小越快
+        var fullWidth = $(window).width();
+        var logoLeft = $('#logo').offset().left;
+        var isBackV = false;
+
+        $(this).removeClass('chicken-layer2');
+        $(this).addClass('chicken-layer');
+
+        var objMover = function() {
+            var objLeft = thisObj.offset().left;
+            if (!isBackV) {
+                $(thisObj).css({ 'right': -bigSize });
+            }
+            if (objLeft > -bigSize && !isBackV) {
+                objLeft = objLeft - 2;
+                $(thisObj).offset({ 'left': objLeft });
+                $(thisObj).css({ 'right': fullWidth + bigSize - objLeft });
+            }
+            if (objLeft <= -bigSize) {
+                isBackV = true;
+                $(thisObj).removeClass('chicken-layer');
+                $(thisObj).addClass('chicken-layer2');
+            }
+            if (objLeft <= logoLeft - smallSize && isBackV) {
+                objLeft++;
+                $(thisObj).offset({ 'left': objLeft });
+                $(thisObj).css({ 'right': fullWidth + smallSize - objLeft });
+            }
+            if (objLeft > logoLeft - smallSize && isBackV) {
+                clearInterval(chickenTimer);
+            }
+        }
+
+        var chickenTimer = setInterval(objMover, timeoutVal);
+
+        $(thisObj).mouseover(function() {
+            clearInterval(chickenTimer);
+        });
+        $(thisObj).mouseout(function() {
+            chickenTimer = setInterval(objMover, timeoutVal);
+        });
+
+    }
+})(jQuery);
