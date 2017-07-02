@@ -1,0 +1,5 @@
+1  所有页面的配色修改。
+2  所有页面底部四个的图片添加
+3  白祥部分把denglu改为login zhuce改为register
+4  help部分
+5  底部help相关的链接修改

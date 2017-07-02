@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0700)http://passport.vedeng.com/register.html?backurl=http%3A%2F%2Fwww.vedeng.com%2Fmessage%2Ffailed.html%3Fdourl%3Dhttp%253A%252F%252Fpassport.vedeng.com%252Flogin.html%26backurl%3Dhttp%253A%252F%252Fwww.vedeng.com%252Fmy%252Faccount%252Finfo.html%26title%3D%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%26dotitle%3D%25E7%2599%25BB%25E5%25BD%2595%25E9%25A1%25B5%25E9%259D%25A2%26content%3D%25E6%2582%25A8%25E8%25BF%259B%25E5%2585%25A5%25E7%259A%2584%25E9%25A1%25B5%25E9%259D%25A2%25E9%259C%2580%25E8%25A6%2581%25E7%2599%25BB%25E5%25BD%2595%25E6%2589%258D%25E8%2583%25BD%25E4%25BD%25BF%25E7%2594%25A8%25EF%25BC%258C%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%25E3%2580%2582 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>注册</title>
+    <link rel="stylesheet" href="./zhuce_files/ucenter_style.css">
+	    <script src="./zhuce_files/jquery-1.11.3.min.js.下载"></script>
+    <script src="./zhuce_files/global.js.下载"></script>
+    <script src="./zhuce_files/frame.js.下载"></script>
+    <script src="./zhuce_files/jquery-capsLock.js.下载"></script>
+<script src="./zhuce_files/checkPassword.js.下载"></script>
+<script src="./zhuce_files/register.js.下载"></script></head>
+<body>
+<div class="header global-header">
+	<div class="header-bar">
+		<div class="container">
+			<div class="header-bar-right">
+				<a href="index.html" class="item">回到首页</a>
+				
+			</div>
+			<p class="header-bar-left">
+                                <a href="http://passport.vedeng.com/login.html?backurl=http%3A%2F%2Fwww.vedeng.com%2Fmessage%2Ffailed.html%3Fdourl%3Dhttp%253A%252F%252Fpassport.vedeng.com%252Flogin.html%26backurl%3Dhttp%253A%252F%252Fwww.vedeng.com%252Fmy%252Faccount%252Finfo.html%26title%3D%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%26dotitle%3D%25E7%2599%25BB%25E5%25BD%2595%25E9%25A1%25B5%25E9%259D%25A2%26content%3D%25E6%2582%25A8%25E8%25BF%259B%25E5%2585%25A5%25E7%259A%2584%25E9%25A1%25B5%25E9%259D%25A2%25E9%259C%2580%25E8%25A6%2581%25E7%2599%25BB%25E5%25BD%2595%25E6%2589%258D%25E8%2583%25BD%25E4%25BD%25BF%25E7%2594%25A8%25EF%25BC%258C%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%25E3%2580%2582" class="link-outstanding">登录</a>
+                <a href="http://passport.vedeng.com/register.html?backurl=http%3A%2F%2Fwww.vedeng.com%2Fmessage%2Ffailed.html%3Fdourl%3Dhttp%253A%252F%252Fpassport.vedeng.com%252Flogin.html%26backurl%3Dhttp%253A%252F%252Fwww.vedeng.com%252Fmy%252Faccount%252Finfo.html%26title%3D%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%26dotitle%3D%25E7%2599%25BB%25E5%25BD%2595%25E9%25A1%25B5%25E9%259D%25A2%26content%3D%25E6%2582%25A8%25E8%25BF%259B%25E5%2585%25A5%25E7%259A%2584%25E9%25A1%25B5%25E9%259D%25A2%25E9%259C%2580%25E8%25A6%2581%25E7%2599%25BB%25E5%25BD%2595%25E6%2589%258D%25E8%2583%25BD%25E4%25BD%25BF%25E7%2594%25A8%25EF%25BC%258C%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%25E3%2580%2582">注册</a>
+                			 </p>
+		</div>
+	</div>
+	<div class="header-main">
+		<div class="container">
+			<h2 class="hotline"><i class="imgicon imgicon-phone"></i>4006-999-569</h2>
+			<h1 id="logo"><a href="http://www.vedeng.com/" class="img"><img src="./zhuce_files/logo.png" alt=""></a></h1>
+		</div>
+	</div>
+</div>
+
+<!-- 用户注册 -->
+<div class="content register-page">
+<div class="container">
+	<div class="box box-register">
+		<div class="box-title">
+			<h3>用户注册</h3>
+		</div>
+		<div class="list box-body">
+		    <input name="AccountForm[regtype]" id="regtype" type="hidden" value="mobile">
+            <input name="AccountForm[_csrf]" id="_csrf" type="hidden" value="eDVyNEp4REs2fzlACTQ3CRp.IF0ZKAwSE1QQdgULIS1VY0BkGA0KJg==">
+            <input name="AccountForm[regUrl]" id="regUrl" type="hidden" value="http://passport.vedeng.com/register.html?backurl=http%3A%2F%2Fwww.vedeng.com%2Fmessage%2Ffailed.html%3Fdourl%3Dhttp%253A%252F%252Fpassport.vedeng.com%252Flogin.html%26backurl%3Dhttp%253A%252F%252Fwww.vedeng.com%252Fmy%252Faccount%252Finfo.html%26title%3D%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%26dotitle%3D%25E7%2599%25BB%25E5%25BD%2595%25E9%25A1%25B5%25E9%259D%25A2%26content%3D%25E6%2582%25A8%25E8%25BF%259B%25E5%2585%25A5%25E7%259A%2584%25E9%25A1%25B5%25E9%259D%25A2%25E9%259C%2580%25E8%25A6%2581%25E7%2599%25BB%25E5%25BD%2595%25E6%2589%258D%25E8%2583%25BD%25E4%25BD%25BF%25E7%2594%25A8%25EF%25BC%258C%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%25E3%2580%2582">
+            <input name="AccountForm[params]" id="params" type="hidden" class="form-control" value="backurl=http%3A%2F%2Fwww.vedeng.com%2Fmessage%2Ffailed.html%3Fdourl%3Dhttp%253A%252F%252Fpassport.vedeng.com%252Flogin.html%26backurl%3Dhttp%253A%252F%252Fwww.vedeng.com%252Fmy%252Faccount%252Finfo.html%26title%3D%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%26dotitle%3D%25E7%2599%25BB%25E5%25BD%2595%25E9%25A1%25B5%25E9%259D%25A2%26content%3D%25E6%2582%25A8%25E8%25BF%259B%25E5%2585%25A5%25E7%259A%2584%25E9%25A1%25B5%25E9%259D%25A2%25E9%259C%2580%25E8%25A6%2581%25E7%2599%25BB%25E5%25BD%2595%25E6%2589%258D%25E8%2583%25BD%25E4%25BD%25BF%25E7%2594%25A8%25EF%25BC%258C%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%25E3%2580%2582">
+            <input type="hidden" id="is_timeout_001" value="1">
+			<div class="item item-input">
+				<label for="mobile" class="input-label"><b class="asterisk">*</b>手机号码：</label>
+				<div class="input-content input-correct">
+				    <input type="text" name="AccountForm[mobile]" id="mobile" maxlength="15" class="form-control input-full" placeholder="请输入手机号码" data-messages="请输入正确的手机号码！">
+				</div>
+				
+			</div>
+			<div class="item item-input">
+				<label for="captcha" class="input-label"><b class="asterisk">*</b>验证码：</label>
+				<div class="input-content">
+				    <input type="text" name="AccountForm[verifyCode]" id="captcha" maxlength="4" class="form-control input-half" placeholder="右图的字符" data-messages="请输入验证码!">
+				</div>
+				<img src="./zhuce_files/captcha.html" alt="">
+				<a href="javascript:" id="changCaptcha_001">刷新</a>
+			</div>
+			<div class="item item-input">
+				<label for="sms_verify_code" class="input-label"><b class="asterisk">*</b>短信验证码：</label>
+				<div class="input-content">
+				    <input type="text" name="AccountForm[smsVerifyCode]" id="sms_verify_code" maxlength="6" placeholder="短信验证码" data-messages="请输入短信验证码!" class="form-control input-half">
+    				
+				</div>
+				<a href="javascript:" id="btn_sms_verify_code" class="btn btn-default">获取短信验证码</a>
+			</div>
+			<div class="item item-input">
+				<label for="passwd-1" class="input-label"><b class="asterisk">*</b>密码：</label>
+				<div class="input-content">
+    				<p class="input-pop-tip caps-lock" id="caps-lock-id001">
+        				<i class="iconfont iconfontwarnfill text-warning"></i>
+        				<span class="text-danger">键盘大写锁定已打开，请注意大小写</span>
+    				</p>
+    				<input type="password" name="AccountForm[password]" id="passwd-1" value="" class="form-control input-full" placeholder="请输入6-16位的密码" data-messages="请输入6-16位的密码!" maxlength="16">
+    				<!-- 安全程度切换：null/.weak/.medium/.strong -->
+    				<div class="pass-strength" style="display: none">
+                      <label for="">安全程度：</label>
+                      <span class="weak" id="pass-strength">&nbsp;</span>
+                    </div>
+                </div>
+			</div>
+			<div class="item item-input">
+				<label for="passwd-2" class="input-label"><b class="asterisk">*</b>确认密码：</label>
+				<div class="input-content">
+				<input type="password" name="AccountForm[repassword]" id="passwd-2" value="" class="form-control input-full" placeholder="请再次输入密码" data-messages="确认密码不正确!" maxlength="16">
+				</div>
+			</div>
+			<div class="item item-input">
+				<label for="corporation" class="input-label"><b class="asterisk">*</b>企业名称：</label>
+				<div class="input-content input-correct">
+				<input type="text" name="AccountForm[corporation]" id="corporation" class="form-control input-full" placeholder="请输入企业名称" data-messages="请输入企业名称!">
+				</div>
+			</div>
+			<div class="item item-input checkbox-content">
+				<div class="input-content checkbox">
+					
+					<input type="checkbox" name="agree" checked="checked" id="agree" data-messages="同意贝登医疗用户协议后才能注册!">
+					我已经阅读并同意<a href="http://www.vedeng.com/help/view/5.html" target="_blank">贝登医疗用户协议</a>
+					<span class="error-text"></span>
+					
+				</div>
+			</div>
+			<div class="item item-input submit-content">
+				<div class="input-content">
+					<a href="javascript:" id="formSubmit" class="btn btn-submit btn-lg btn-full">注册</a>
+				</div>
+			</div>
+			<div class="item item-input login-link-content">
+				<div class="input-content">
+					<p class="login">已有账号，立即<a href="http://passport.vedeng.com/login.html?backurl=http%3A%2F%2Fwww.vedeng.com%2Fmessage%2Ffailed.html%3Fdourl%3Dhttp%253A%252F%252Fpassport.vedeng.com%252Flogin.html%26backurl%3Dhttp%253A%252F%252Fwww.vedeng.com%252Fmy%252Faccount%252Finfo.html%26title%3D%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%26dotitle%3D%25E7%2599%25BB%25E5%25BD%2595%25E9%25A1%25B5%25E9%259D%25A2%26content%3D%25E6%2582%25A8%25E8%25BF%259B%25E5%2585%25A5%25E7%259A%2584%25E9%25A1%25B5%25E9%259D%25A2%25E9%259C%2580%25E8%25A6%2581%25E7%2599%25BB%25E5%25BD%2595%25E6%2589%258D%25E8%2583%25BD%25E4%25BD%25BF%25E7%2594%25A8%25EF%25BC%258C%25E8%25AF%25B7%25E5%2585%2588%25E7%2599%25BB%25E5%25BD%2595%25E3%2580%2582">登录</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="reg-img">&nbsp;</div>
+	</div>
+</div>
+<!-- 用户注册结束 -->
+
+
+<div class="footer">
+	
+	<div class="container">
+		
+		<div class="about-links login-footer">
+			<p class="nav">
+				<a href="http://www.vedeng.com/help/view/11.html" target="_blank">关于我们</a>|<a href="http://www.vedeng.com/help/view/10.html" target="_blank">联系我们</a>|<a href="http://www.vedeng.com/help/view/9.html" target="_blank">法律声明</a>|<a href="http://www.vedeng.com/help/view/8.html" target="_blank">隐私声明</a>|<a href="http://www.vedeng.com/qxinfo/jkqx.html" target="_blank">器械数据库</a>
+			</p>
+			<p class="copyright">
+				Copyright © 2010-2012 VEDENG Corporation All Rights Reserved ICP备案证书号:<a href="http://www.miibeian.gov.cn/" rel="nofollow" target="_blank">苏ICP备11075436号</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+</body></html>

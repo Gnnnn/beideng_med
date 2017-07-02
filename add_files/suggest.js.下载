@@ -1,0 +1,12 @@
+function subAdd(){
+//	if($("input[name='types[]']:checked").length <= 0){
+//		layer.msg("请选择问题类型");
+//		return false;
+//	}
+	var content = $("#content").val();
+	if(!content){
+		layer.msg("请输入您的建议或者意见");
+		return false;
+	}
+	$("#form").submit();
+}

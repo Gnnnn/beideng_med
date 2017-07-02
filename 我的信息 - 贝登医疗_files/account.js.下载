@@ -1,0 +1,593 @@
+$(function(){
+	/*$("#nickname").change(function(){
+		var nickname = $("input[name='nickname']").val();
+		if(nickname.length > 0 && !nickname.match(/^[a-zA-Z\u4e00-\u9fa5]+$/)){
+			layer.tips("昵称只能为中文或英文","#nickname");
+		}
+		if(nickname.length > 30){
+			layer.tips("昵称不能超过30个字符","#nickname");
+		}
+	});*/
+	$("input[name='real_name']").change(function(){
+		if($("input[name='real_name']").val().length > 20){
+			layer.tips("真实姓名不能超过20个字符","#real_name");
+		}
+	});
+	$("input[name='mobile']").change(function(){
+		if($("input[name='mobile']").val().length > 0 && !$("input[name='mobile']").val().match(/^[1]\d{10}$/)){
+			layer.tips("输入的手机格式不正确","#mobile");
+		}
+	});
+	$("input[name='email']").change(function(){
+		if($("input[name='email']").val().length > 0 && !$("input[name='email']").val().match(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/)){
+			layer.tips("输入的邮箱格式不正确","#email");
+		}
+	});
+	$("input[name='id_number']").change(function(){
+		var csrf = $("#_csrf").val();
+		var id_number = $("input[name='id_number']").val();
+		if(id_number.length > 0){
+			if(!id_number.match(/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/)){
+				layer.tips("此身份证号码无效",this);
+			}else{
+				$.ajax({
+					type:'post',
+					url:'/my/account/ajax-number.html',
+					data:{id_number:id_number,_csrf:csrf},
+					dataType:'json',
+					success:function(data){
+						if(data.code == -1){
+							layer.tips(data.msg,"#id_number");
+						}
+					}
+				});
+			}
+		}
+	});
+	$("#editAccount").click(function(){
+		var hh= true;
+		var csrf = $("#_csrf").val();
+		var corporation = $("input[name='corporation']").val();
+		var zone = $("#zone option:selected").val();
+		var address = $("input[name='address']").val();
+		var real_name = $("input[name='real_name']").val();
+		var qq = $("input[name='qq']").val();
+		var sex = $("input[name='sex']:checked").val();
+		if(!corporation){
+			layer.tips('公司名称不能为空','#corporation');
+			hh=false;
+		}
+		if(hh == true){
+			$.ajax({
+				type:'post',
+				url:'/my/account/ajax-edit-info.html',
+				data:{corporation:corporation,zone:zone,address:address,
+					real_name:real_name,qq:qq,sex:sex,_csrf:csrf},
+				dataType:'json',
+				success:function(data){
+					layer.msg(data.msg);
+					location.reload();
+				}
+			});
+		}
+	});
+	
+});
+	var index;
+	/**
+	*收货地址设置为默认
+	*/
+	function editRegion(id){
+		var csrf = $("#_csrf").val();
+		$.ajax({
+			type:'post',
+			url:'/my/account/ajax-edit-region.html',
+			data:{id:id,_csrf:csrf},
+			dataType:'json',
+			success:function(data){
+				location.reload();
+			}
+		});
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	function addAddress(){
+		var add = true;
+		var csrf = $("#_csrf").val();
+		var consignee = $("input[name='consignee']").val();
+		var area_id = $("#zone option:selected").val();
+		var address = $("input[name='address']").val();
+		var mobile_number = $("input[name='mobile_number']").val();
+		var email = $("input[name='email']").val();
+		var phone_number = $("input[name='phone_number']").val();
+		var receiving_name = $("input[name='receiving_name']").val();
+		if(receiving_name.length > 64){
+			layer.tips("地址别名不能超过64字符","#receiving_name");
+			add = false;
+			return false;
+		}
+		if(receiving_name.length <=0){
+			layer.tips("地址别名不能为空","#receiving_name");
+			add = false;
+			return false;
+		}
+		if(!consignee.length){
+			layer.tips("收货人不能为空","#consignee");
+			add = false;
+			return false;
+		}
+		if(consignee.length >50){
+			layer.tips("收货人长度超出","#consignee");
+			add = false;
+			return false;
+		}
+		if(mobile_number.length <= 0){
+			layer.tips("手机号码不能为空","#mobile_number");
+			add = false;
+			return false;
+		}
+		if(mobile_number.length > 0 && !mobile_number.match(/^[1]\d{10}$/)){
+			layer.tips("输入的手机格式不正确","#mobile_number");
+			add = false;
+			return false;
+		}
+		if(area_id <=0){
+			layer.tips("请选择所在地区","#zone");
+			add = false;
+			return false;
+		}
+		if(consignee.length > 0 && !consignee.match(/^[a-zA-Z\u4e00-\u9fa5]+$/)){
+			layer.tips("收货人只能为中文或英文","#consignee");
+			add = false;
+			return false;
+		}
+		if(!address.length){
+			layer.tips("详细地址不能空","#address");
+			add = false;
+			return false;
+		}
+		if(address.length > 200){
+			layer.tips("详细地址不能超过200字符","#address");
+			add = false;
+			return false;
+		}
+		
+		if(phone_number.length > 0 && !phone_number.match(/^(\d{3,4})(\d{7,8})?$/)){
+			layer.tips("输入的固定电话格式不正确","#phone_number");
+			add = false;
+			return false;
+		}
+		if(email.length > 0 && !email.match(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/)){
+			layer.tips("输入的邮箱格式不正确","#email");
+			add = false;
+			return false;
+		}
+		
+		if(add){
+			$.ajax({
+				type:'post',
+				url:'/my/account/ajax-add-address.html',
+				data:{consignee:consignee,area_id:area_id,
+					address:address,mobile_number:mobile_number,
+					phone_number:phone_number,email:email,
+					receiving_name:receiving_name,_csrf:csrf
+				},
+				dataType:'json',
+				success:function(data){
+					if(data.code > 0){
+						layer.msg(data.msg);
+						window.location.href = "/my/account/address-list.html";
+					}else{
+						layer.msg(data.msg);
+					}
+					
+				}
+			})
+		}
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	function editAddress(id){
+		var edit = true;
+		var csrf = $("#_csrf").val();
+		var consignee = $("input[name='consignee']").val();
+		var receiving_name = $("input[name='receiving_name']").val();
+		var area_id = $("#zone option:selected").val();
+		var address = $("input[name='address']").val();
+		var mobile_number = $("input[name='mobile_number']").val();
+		var phone_number = $("input[name='phone_number']").val();
+		var email = $("input[name='email']").val();
+		
+		if(receiving_name.length > 64){
+			layer.tips("地址别名不能超过64字符","#receiving_name");
+			edit = false;
+			return false;
+		}
+		if(!consignee.length){
+			layer.tips("收货人不能为空","#consignee");
+			edit = false;
+			return false;
+		}
+		if(mobile_number.length <= 0){
+			layer.tips("手机号码不能为空","#mobile_number");
+			edit = false;
+			return false;
+		}
+		if(mobile_number.length > 0 && !mobile_number.match(/^[1]\d{10}$/)){
+			layer.tips("输入的手机格式不正确","#mobile_number");
+			edit = false;
+			return false;
+		}
+		if(consignee.length >50){
+			layer.tips("收货人长度超出","#consignee");
+			edit = false;
+			return false;
+		}
+		if(area_id <=0){
+			layer.tips("请选择所在地区","#zone");
+			edit = false;
+			return false;
+		}
+		if(consignee.length > 0 && !consignee.match(/^[a-zA-Z\u4e00-\u9fa5]+$/)){
+			layer.tips("收货人只能为中文或英文","#consignee");
+			edit = false;
+			return false;
+		}
+		if(!address.length){
+			layer.tips("详细地址不能空","#address");
+			edit = false;
+			return false;
+		}
+		if(address.length > 200){
+			layer.tips("详细地址不能超过200字符","#address");
+			edit = false;
+			return false;
+		}
+		
+		if(phone_number.length > 0 && !phone_number.match(/^(\d{3,4})(\d{7,8})?$/)){
+			layer.tips("输入的固定电话格式不正确","#phone_number");
+			edit = false;
+			return false;
+		}
+		if(email.length > 0 && !email.match(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/)){
+			layer.tips("输入的邮箱格式不正确","#email");
+			edit = false;
+		}
+		if(receiving_name.length <=0){
+			layer.tips("地址别名不能为空","#receiving_name");
+			return edit = false;
+		}
+		if(edit){
+			$.ajax({
+				type:'post',
+				url:'/my/account/ajax-edit-address.html',
+				data:{id:id,consignee:consignee,area_id:area_id,
+					address:address,mobile_number:mobile_number,
+					phone_number:phone_number,email:email,
+					receiving_name:receiving_name,_csrf:csrf
+				},
+				dataType:'json',
+				success:function(data){
+					if(data.code > 0){
+						layer.msg(data.msg);
+						window.location.href = "/my/account/address-list.html";
+					}else{
+						layer.msg(data.msg);
+					}
+					
+				}
+			})
+		}
+	}
+	
+	/**
+	 * 
+	 * @param account_id
+	 */
+	function addIdentity(account_id){
+		var csrf = $("#_csrf").val();
+		var title = $("input[name='title']").val();
+		var img = $("input[name='img_uri']").val();
+		$.ajax({
+			type : 'post',
+			url : '/my/account/ajax-add-identity.html',
+			data : {account_id:account_id,title:title,img:img,_csrf:csrf},
+			dataType : 'json',
+			success:function(data){
+				if(data.code){
+					alert("还可继续添加");
+					location.reload();
+				}else{
+					alert(data.msg);
+				}
+			}
+		});
+	}
+	
+	function addPassword(){
+		var csrf = $("#_csrf").val();
+		var password = $("input[name='pay_password']").val();
+		var confirm = $("input[name='confirm']").val();
+		if(password != confirm){
+			alert("两次密码不一致");
+		}else{
+			$.ajax({
+				type :　'post',
+				url : '/my/account/pay-password.html',
+				data : {password:password,_csrf:csrf},
+				dataType : 'json',
+				success:function(data){
+					if(data.code){
+						alert(data.msg);
+						window.location.href='/my/account/info.html';
+					}else{
+						alert(data.msg);
+					}
+				}
+			})
+		}
+	}
+
+$(function(){
+	$("#add_address_ifr").click(function(){
+		var counts = $("input[name='count_address']").val();
+		if(counts >= 10){
+			layer.tips("最多只可创建10个收货地址","#add_address_ifr");
+		}else{
+			$.ajax({
+				type:"get",
+				url:"/my/account/ajax-get-address.html",
+				dataType:'json',
+				success:function(data){
+					index=layer.tab({
+						title:['新增收货地址','padding-left:30px'],
+						shadeClose: true,
+		                area: ['600px', '470px'],
+		                tab: [{
+					        content: data.msg
+					    }]
+		            });
+				}
+			});
+		}
+	})
+})
+
+function getEditAddress(id){
+	$.ajax({
+		type:"get",
+		url:"/my/account/get-edit-address.html",
+		
+		data:{id:id},
+		dataType:'json',
+		success:function(data){
+			layer.tab({
+				title:['修改收货地址','padding-left:30px'],
+				shadeClose: true,
+                area: ['600px', '470px'],
+                tab: [{
+			        content: data.msg
+			    }]
+            });
+		}
+	});
+}
+
+function delAddress(id){
+	if(id > 0){
+		index = layer.confirm(('确定要删除该地址？'),{
+			btn: ['确定','取消'],
+			shade: [0.4, '#393D49']
+		},function(){
+			$.ajax({
+				type:"get",
+				url:"/my/account/del-address.html",
+				data:{id:id},
+				dataType:'json',
+				success:function(data){
+					layer.msg(data.msg);
+					location.reload();
+				}
+			})
+		},function(){
+			layer.close(index);
+		});
+	}
+	
+}
+
+function defaultAddress(id){
+	$.ajax({
+		type:"get",
+		url:"/my/account/default-address.html",
+		data:{id:id},
+		dataType:'json',
+		success:function(data){
+			layer.msg(data.msg);
+			location.reload();
+		}
+	})
+}
+
+function addinvoice(type,invoiceId){
+		$.ajax({
+			type:"get",
+			url:"/my/invoice/add-invoice.html",
+			data:{type:type,invoiceId:invoiceId},
+			dataType:'json',
+			beforeSend: function () {
+				var len=$("tr[name='tr"+type+"']").length;
+		        if(len>=5 && !invoiceId){
+		        	layer.msg("最多只能添加5个发票");
+		        	return false;
+		        }
+		    },
+			success:function(data){
+				if(type==2){
+				index=layer.tab({
+					title:['添加/修改发票','padding-left:20px'],
+	                area: ['500px', '480px'],
+	                tab: [{
+				        content: data.msg
+				    }]
+	            });
+			   }else{
+				   index=layer.tab({
+						title:['添加/修改发票','padding-left:20px'],
+		                area: ['430px', '320px'],
+		                tab: [{
+					        content: data.msg
+					    }]
+		            });
+			   }
+			}
+		});
+}
+
+function detailinvoice(invoiceId){
+	$.ajax({
+		type:"get",
+		url:"/my/invoice/detail-invoice.html",
+		data:{invoiceId:invoiceId},
+		dataType:'json',
+		success:function(data){
+			index=layer.tab({
+				title:['增值税发票详情','padding-left:30px'],
+                area: ['590px', '500px'],
+                tab: [{
+			        content: data.msg
+			    }]
+            });
+		}
+	});
+}
+
+function del(invoiceId){
+	index = layer.confirm(('确定要删除该发票？'),{
+		btn: ['确定','取消'],
+		shade: [0.4, '#393D49']
+	},function(){
+		var csrfToken = $('#_csrf').val();
+		$.post('del-invoice.html',{invoiceId:invoiceId,_csrf:csrfToken},function(data){
+			if(data.status==1){
+				  layer.msg(data.msg);
+					$("#tr"+invoiceId).remove();
+				}else{
+					layer.msg(data.msg);
+					return false;
+					}
+			},'json');
+	},function(){
+		layer.close(index);
+	});
+}
+
+function creatInvoice(type){
+	if(!check(type,'second'))
+		return false;
+	$.post('create-invoice.html',$('#type').serialize(),function(data){
+		if(data.status==1){
+			    layer.msg(data.msg);
+				location.href="invoice-list.html";
+			}else{
+				 layer.msg(data.msg);
+				return false;
+				}
+		},'json');
+}
+
+function check(type,step){
+	if(type=='type1'){
+		if(!$("#invoice_title").val()){
+			layer.tips('请输入发票抬头','#invoice_title');
+			return false;
+		}
+		if(!$("#invoice_type_name").val()){
+			layer.tips('请输入发票别名','#invoice_type_name');
+			return false;
+		}
+	}else if(type="type2"){
+		var mobile_number=$("#mobile_number").val();
+		var register_phone=$("#invoice_register_phone").val();
+		if(step=="first"){
+				if(!$("#invoice_company").val()){
+					//layer.msg('请选择你要询价的商品');
+					layer.tips('请输入单位名称','#invoice_company');
+					return false;
+				}
+				if(!$("#invoice_no").val()){
+					layer.tips('请输入纳税人识别号','#invoice_no');
+					return false;
+				}
+				if(!$("#invoice_register_address").val()){
+					layer.tips('请输入注册地址','#invoice_register_address');
+					return false;
+				}
+				if(register_phone.length<=0){
+					layer.tips('请输入注册电话','#invoice_register_phone');
+					return false;
+				}
+				if(register_phone.length > 0 && (!register_phone.match(/^(0\d{2,3})(\-)?\d{7,8}(\-\d{1,4})?$/) && !register_phone.match(/^[1]\d{10}$/))){
+					layer.tips('输入的注册电话格式不正确','#invoice_register_phone');
+					return false;
+				}
+				if(!$("#invoice_bank").val()){
+					layer.tips('请输入开户行','#invoice_bank');
+					return false;
+				}
+				if(!$("#invoice_bank_account").val()){
+					layer.tips('请输入银行账户','#invoice_bank_account');
+					return false;
+				}
+		}else if(step=='second'){
+			if(!$("#consignee").val()){
+				layer.tips('请输入收票人姓名','#consignee');
+				return false;
+			}
+			if(mobile_number.length<=0){
+				layer.tips('请输入收票人手机','#mobile_number');
+				return false;
+			}
+			if(mobile_number.length > 0 && !mobile_number.match(/^[1]\d{10}$/)){
+				layer.tips("输入的手机格式不正确","#mobile_number");
+				edit = false;
+				return false;
+			}
+			if($("#zone").val()==0){
+				layer.tips('请选择收票人城市','#zone');
+				return false;
+			}
+			if(!$("#address").val()){
+				layer.tips('请选择收票人详细地址','#address');
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+function addAccountfile(type_id){
+	$.ajax({
+	    type : 'get',
+	    url : '/my/identity/get-add-file.html',
+	    data : {type_id:type_id},
+	    dataType : 'json',
+	    success:function(data){
+	    	index=layer.tab({
+				title:['添加资质证书','padding-left:30px'],
+				shadeClose: true,
+                area: ['600px', '470px'],
+                tab: [{
+			        content: data.msg
+			    }]
+            });
+		}
+	});
+}

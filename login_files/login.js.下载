@@ -1,0 +1,172 @@
+/**
+ * do login
+ * John
+ */
+
+$(document).ready(function($e){
+	var vedengJs = new VedengJs();
+	var waitTime = 0;
+	var account = $('#account');
+	var password = $('#password');
+	var captcha = $('#captcha');
+	var logindomain = $('#logindomain');
+	var params = $('#params').val();
+	var errMessage = $('#error_message_001');
+	var isquicklogin = $('#isquicklogin');
+	var errBox = $('#error_box_001');
+	var changCaptcha=$('#changCaptcha_001');
+	/////////////////
+	var emailPattern = /^.*\@.*\.[a-zA-Z]{2,4}$/;
+    var mobilePattern = /^1[0-9]{10}$/;
+	/////////////////
+	var url = $(logindomain).val() + '/login/do.html';
+	
+	//auto focus
+	$(account).focus();
+		
+	//////////////
+	$(changCaptcha).click(function(e){
+		var captchaImg = $(this).prev('img');
+		var src = $(captchaImg).attr('src');
+		var srcArr = src.split('?');
+		
+		$(captchaImg).attr("src",srcArr[0] + '?key=login&v=' + vedengJs.getMillisecond());
+		});
+	   
+	   
+	//click event	
+	$('#account_login').click(function(e) {
+        //$('#login_form').submit();
+    });
+	
+	// enter key
+	$(document).keydown(function(event){
+		if(event.keyCode ==13){
+			if($(account).is(":focus") || $(password).is(":focus") || $(captcha).is(":focus") ){
+				$('#account_login').click();
+				}
+			
+		}
+	});
+	
+	$(password).capsLockTip({itemid:"caps-lock-id001",float:false});//大写锁状态检测
+	
+	//
+	$(account).focus(function(e){
+		vedengJs.closeError(this);
+		});
+	//
+	$(password).focus(function(e){
+		vedengJs.closeError(this);
+		});
+		
+	
+	$(captcha).focus(function(e){
+		vedengJs.closeError(this);
+		});
+		
+		
+	//submit event
+	$('#account_login').click(function(e){
+		
+		if(!mobilePattern.test(account.val())){
+			vedengJs.openError(account,'请输入正确的手机号码!');
+			return false;
+			}
+		if(password.val() == ''){
+			vedengJs.openError(password,'请输入密码!');
+			return false;
+			}
+		
+		if(password.val().length < 6 ||  password.val().length > 16 ){
+			vedengJs.openError(password,'密码长度不能小于6位或超过16位!');
+			return false;
+			}
+		
+		if(captcha.val().length !== 4 ){
+			vedengJs.openError(captcha,'请输入右边图片上的验证码(不区分大小写)!',true);
+			return false;
+			}
+		
+		$('#account_login').addClass(function(index) {
+            $(this).attr('disabled','disabled');
+			$(this).html('正在登录,请稍候...');
+			return 'disabled';
+        });
+		
+		$.ajax({
+			url:url + '?jsoncallback=?&time='+ vedengJs.getMillisecond(),
+			type:'get',
+			data:{'AccountForm[account]':account.val(),'AccountForm[password]':password.val(),'AccountForm[verifyCode]':captcha.val(),'params':params},
+			dataType:'json',
+			success:function(res){
+				if(res.code == 1){
+					m = 0; // break count
+					var ssoData = res.data;
+					allLen = ssoData.length;
+					var backurl = res.backurl;
+					for(i in ssoData){
+						 $.ajax({
+							 url:ssoData[i].url + '?jsoncallback=?&time='+vedengJs.getMillisecond(),
+						 	 data:{token:ssoData[i].token},
+							 dataType:'json',
+							 error:function(XMLHttpRequest, textStatus, errorThrown){
+								 	allLen --;
+								 },
+						 	 success:function(returns){
+								 m ++;
+								 if(allLen == m){
+									 if($(isquicklogin).val() !== '1'){
+										//location.href = backurl;
+										setTimeout('toBack("'+backurl+'")',waitTime);
+									 }
+									 else{
+										 location.reload();
+										 }
+									
+									}
+								}
+							 
+							});
+						 } 
+					}
+				else{
+					$('#account_login').removeClass(function(index) {
+						$(this).removeAttr('disabled');
+						$(this).html('登录');
+						return 'disabled';
+					});
+					
+					$(errBox).show();
+					
+					if(res.code === -1 ){
+						vedengJs.openError(account,'无效的请求!');
+						}
+					if(res.code === -2 ){
+						vedengJs.openError(captcha,'验证码错误!',true);
+						$(changCaptcha).click();
+						}
+					if(res.code === 0){
+						//vedengJs.openError(account,'');
+						vedengJs.openError(password,'手机号码或密码不正确!');
+						$(changCaptcha).click();
+						}
+					}
+					
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					$('#account_login').removeClass(function(index) {
+						$(this).removeAttr('disabled');
+						$(this).html('登录异常,请重试！');
+						return 'disabled';
+					});
+				}
+			});
+			return false;
+	});
+});
+
+
+function toBack(backurl){
+	location.href = backurl;
+	}
