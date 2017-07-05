@@ -1,0 +1,78 @@
+$(document).ready(function(e) {
+	
+});
+
+/**
+ * 商品取消关注
+ * @param goods_id
+ */
+var index;
+function delFavorite(account_favorite_id){
+	if(account_favorite_id > 0){
+		index = layer.confirm('确定要删除该产品？', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(){
+			var _csrf = $("#_csrf").val();
+			$.ajax({
+				type: "POST",
+				   url: "/my/favorite/ajax-del-favorite.html",
+				   data: {'account_favorite_id':account_favorite_id,'_csrf':_csrf},
+				   dataType:'json',
+				   success: function(data){
+					   layer.msg( data.msg );
+					   location.reload();
+				   }
+			});
+		}, function(){
+		    layer.close(index);
+		});
+	}
+}
+
+/**
+ * 全选操作
+ */
+function selectAll(elem){
+	if($(elem).is(":checked")){
+		$("input[type='checkbox']").prop("checked",true);
+	}else{
+		$("input[type='checkbox']").removeAttr("checked");
+	}
+}
+
+/**
+ * 批量取消关注
+ */
+function cancelAll(){
+	if($("input[name='ids[]']:checked").length <=0 ){
+		layer.msg("请选择要删除的产品");
+		return false;
+	}
+	index = layer.confirm('确定要删除选择中产品？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var ids = '';
+		$.each($("input[name='ids[]']:checked"),function(i,n){
+			if(i+1 == $("input[name='ids[]']:checked").length){
+				ids += $(this).val();
+			}else{
+				ids += $(this).val()+"_";
+			}
+		});
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+			url: "/my/favorite/ajax-delall-favorite.html",
+			   data: {'ids':ids,'_csrf':_csrf},
+			   dataType:'json',
+			   success: function(data){
+			     location.reload();
+			   }
+		});
+	}, function(){
+	    layer.close(index);
+	});
+	
+}

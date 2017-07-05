@@ -1,0 +1,315 @@
+/**
+ * do login
+ * John
+*/
+var configJs = '';
+$.ajax({
+	url: "/js-config.html",
+	async: true,
+	dataType:'json',
+	success:function(data){
+		 configJs = data;
+		}
+	}); 
+
+function toBack(backurl){
+	location.href = backurl;
+	}
+/*获取毫秒*/
+function getMillisecond(){
+	date = new Date();
+	return date.getTime()+''+date.getMilliseconds();
+	}
+
+
+var VedengJs = function(){};
+
+///////	    
+VedengJs.prototype.popError = function (obj,message){
+	var messageBox= $(obj).next('span');
+	if(typeof(messageBox.html()) == 'undefined'){
+		$(obj).after(this.getErrHtml(message));
+		}
+		else{
+			$(messageBox).removeClass('text-danger');
+			$(messageBox).addClass('text-danger');
+			messageBox.html(message);
+		}
+	}
+///////	    
+VedengJs.prototype.popMessage = function (obj,message){
+	var messageBox= $(obj).next('span');
+	if(typeof(messageBox.html()) == 'undefined'){
+		$(obj).after(this.getErrHtml(message));
+			$(obj).next('span').removeClass('text-danger');
+		}
+		else{
+			$(messageBox).removeClass('text-danger');
+			messageBox.html(message);
+		}
+	}
+////////	
+VedengJs.prototype.removeError = function (obj){
+	var messageBox= $(obj).next('span');
+	$(messageBox).remove();
+	}
+
+////////
+VedengJs.prototype.getErrHtml = function (message){
+	var errTpl = '<span class="validation-message text-danger">{error}</span>';
+	return errTpl.replace(/\{error\}/g, message);
+	}
+	
+///////
+VedengJs.prototype.getMillisecond = function (){
+	date = new Date();
+	return date.getTime()+''+date.getMilliseconds();
+	}
+	
+
+///////
+VedengJs.prototype.getParam = function(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+///////
+VedengJs.prototype.getParam = function(url,name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+	var urlSplit = url.split('?');
+    var r = urlSplit[1].match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+///////
+VedengJs.prototype.getNoParamsUrl = function(url){
+	var urlSplit = url.split('?');
+	return urlSplit[0];
+}
+///////
+VedengJs.prototype.changeCaptcha = function(btnChangeCaptcha){
+	var captchaImg = $(btnChangeCaptcha).prev('img');
+	var src = $(captchaImg).attr('src');
+	var url = this.getNoParamsUrl(src);
+	var key = this.getParam(src,'key');
+	
+	$(captchaImg).attr("src",url + '?key='+key+'&v=' + this.getMillisecond());
+	   
+    
+}
+
+//add by leo
+$(document).ready(function(){
+	//回到顶部
+	$(window).scroll(function(){
+		var scrollY = $(window).scrollTop();
+		if (scrollY > 300){
+			$(".back-top").show();
+		} 
+		else{
+			$(".back-top").hide();
+		}
+	});
+	$(".back-top").click(function(){
+		  $('html, body').animate({scrollTop: 0}, '500');
+		});
+	//图片延迟加载
+	 echo.init({
+		offset : 0,//离可视区域多少像素的图片可以被加载
+		throttle : 0,//图片延迟多少毫秒加载
+		unload : false,
+		callback : function(element, op) {
+			//console.log(element, 'has been', op + 'ed')
+		}
+	});
+	// 加载扩展模块
+	layer.config({
+	    extend: 'extend/layer.ext.js'
+	});
+    /*头部搜索=================================================== Start ==================== */
+    var form = $('#searchForm');
+    var itemUlPad = $('#searchkey_result_1');
+    var closeBtn = $("#searchkey_result_pad_close_1");
+    var obj = $(form).find('.input_text');
+    var oldKey = $(obj).val();
+    var newKey = $(obj).val();
+    
+    $(obj).bind("input keyup",function(event){
+    	var oldKey = $(obj).val();
+    	var itemTag = $(itemUlPad).find('ul li');
+    	if(oldKey !== newKey && event.keyCode !== 38 && event.keyCode !== 40){
+    		getSearchKeyLike(form);
+    		eval("currentIndex = ''"); //clear select index;
+    		eval("newKey=$(obj).val()"); //global variable;
+    	}
+    	if($.trim(newKey)==''){
+    		$(itemUlPad).addClass("searchkey_result_hidden");
+    	}
+    });
+    $(obj).keydown(function(event){
+    	var itemTag = $(itemUlPad).find('ul li');
+    	var itemTagCount = $(itemTag).length;
+    	if(event.keyCode === 38){
+    		for(var n=0 ; n<itemTagCount; n++){
+    			$(itemTag).eq(n).removeClass("hover");
+    		}
+    		if(typeof(currentIndex) === 'undefined' || currentIndex === ''){
+    			$(itemTag).eq(itemTagCount-1).addClass("hover");
+    			eval("currentIndex = itemTagCount-1");
+    			var nextIndxt = currentIndex;
+    		}
+    		else{
+    			if( currentIndex > 0){
+    				var nextIndxt = currentIndex - 1;
+    			}
+    			else{
+    				var nextIndxt = itemTagCount-1;
+    			}
+    			$(itemTag).eq(nextIndxt).addClass("hover");
+    			eval("currentIndex = nextIndxt");
+    		}
+    		searchKeyAdd($(itemTag).eq(nextIndxt));
+    	}
+    	if(event.keyCode === 40){
+    		for(var n=0 ; n < itemTagCount; n++){
+    			$(itemTag).eq(n).removeClass("hover");
+    		}
+    		if(typeof(currentIndex) === 'undefined'  || currentIndex === ''){
+    			$(itemTag).eq(0).addClass("hover");
+    			eval("currentIndex = 0");
+    			var nextIndxt = currentIndex;
+    		}
+    		else{
+    			if( currentIndex + 1 < itemTagCount){
+    				var nextIndxt =  currentIndex + 1;
+    			}
+    			else{
+    				var nextIndxt =  0;
+    			}
+    			$(itemTag).eq(nextIndxt).addClass("hover");
+    			eval("currentIndex = nextIndxt");
+    		}
+    		searchKeyAdd($(itemTag).eq(nextIndxt));
+    	}
+    });
+    $(itemUlPad).hover(
+    	function(){
+    		var itemTag = $(this).find('ul li');
+    		$(itemTag).click(function(){
+    			searchKeyAdd(this);
+    			$(itemUlPad).addClass("searchkey_result_hidden");
+    		});
+    		$(itemTag).hover(
+    				function(){
+    					$(this).addClass("hover");
+    				},
+    				function(){
+    					$(this).removeClass("hover");
+    				});
+    	}
+    	,
+    	function(){
+    	}
+    );
+    $(closeBtn).click(function(){
+    	$(itemUlPad).addClass("searchkey_result_hidden");
+    });    
+    /*头部搜索================ */
+    
+    /*购物车*/
+    $(".cart-body").hover(function(){
+    },function(){
+    	$(".cart-body").hide();
+    });
+	
+	
+	//sideToolbar-icon-01
+	var onliner = $('.sideToolbar-icon-01');
+	var onlinerDiv = $('.BDBridgeFixedWrapBox');
+	
+	$(onliner).hover(
+		function () {
+			$(onlinerDiv).show("normal");
+		},
+		function () {
+			$(onlinerDiv).hide();
+		}
+	);
+	$(onlinerDiv).hover(
+		function () {
+			$(this).show();
+		},
+		function () {
+			$(this).hide();
+		}
+	);
+	
+});
+
+/*头部搜索============ */
+function getSearchKeyLike(form){
+    var itemUlPad = $('#searchkey_result_1');
+    var searchKey = $.trim($(form).find('.input_text').val());
+    if(searchKey){
+    	var vdJs = new VedengJs();
+    	$.getJSON(configJs.frontendSite + "/search/searchkey.html?callback=?&time=" + vdJs.getMillisecond(),{kw:searchKey}, function(data){
+    		var resultObj = $('#searchkey_result_1 ul');
+    		$(resultObj).html('');
+    		if(data.length > 0){
+    			$(itemUlPad).removeClass("searchkey_result_hidden");
+    			$(data).each(function(i,item){
+    				$(resultObj).append('<li><span class="title">' + item['name'] + '</span></li>');
+    			});
+    			}
+    		else{
+    			$(itemUlPad).addClass("searchkey_result_hidden");
+    		}
+    	});
+    }
+}
+
+function changeStyleAdd(itemTag){
+    $(itemTag).addClass("hover");
+}
+
+function changeStyleRemove(itemTag){
+    $(itemTag).removeClass("hover");
+}
+
+function searchKeyAdd(itemTag){
+    var itemUlPad = $('#searchkey_result_1');
+    var form = $('#searchForm');
+    $(form).find('.input_text').focus().val($(itemTag).find(".title").html());
+}
+
+function searchValida(form){
+    var searchKey = $.trim($(form).find('.input_text').val());
+    if(!searchKey){
+    	$(form).find('.input_text').focus();
+    	return false;
+    }else{
+    	$(form).find('.input_text').val(searchKey);
+    }
+}
+/*头部搜索=================== End ================================= */
+
+function AddFavorite(title, url) {
+    try {
+        window.external.addFavorite(url, title);
+    }
+    catch (e) {
+        try {
+            window.sidebar.addPanel(title, url, "");
+        }
+        catch (e) {
+            alert("抱歉，您所使用的浏览器无法完成此操作。\n\n加入收藏失败，请使用Ctrl+D进行添加");
+        }
+    }
+}

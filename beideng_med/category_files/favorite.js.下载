@@ -1,0 +1,84 @@
+$(document).ready(function(e) {
+	
+});
+
+/**
+ * 商品添加关注
+ * @param goods_id
+ */
+function addFavorite(goods_id){
+	if(goods_id > 0){
+		var _csrf = $("#_csrf").val();
+		var item_spec_price_id = $("#item_spec_price_id").val();
+		//if(item_spec_price_id > 0){
+			$.ajax({
+				type: "POST",
+				   url: "/goods/ajax-add-favorite.html",
+				   data: {'goods_id':goods_id,'item_spec_price_id':item_spec_price_id,'_csrf':_csrf},
+				   dataType:'json',
+				   success: function(data){
+					   layer.msg(data.msg);
+					   if(data.code === -2){
+							var item_id = 0;
+							var date = new Date();
+							var mtime = date.getTime()+''+date.getMilliseconds();
+						   $.ajax({
+								type: "get",
+								//url: "/login/quick-login.html",
+								url: configJs.ssoSite + '/login/quick-login.html'+ '?jsoncallback=?&mtime=' + mtime,
+								data:{'backurl':location.href},
+								dataType:'json',
+								success: function(data){
+									index = layer.tab({
+										title:['立即登录','padding-left:20px'],
+									    area: ['400px', '370px'],
+									    content: data.data
+//									    tab: [{
+//									        title: '', 
+//									        content: data.data
+//									    }]
+									});
+									
+								}
+							});
+						   
+					   }
+					   else{
+						 //layer.msg(data.msg);
+						 location.reload();
+					   }
+				   }
+			});
+		//}else{
+		//	alert('请选择你要关注的规格');
+		//}
+	}
+}
+
+/**
+ * 商品取消关注
+ * @param goods_id
+ */
+var index;
+function delFavorite(account_favorite_id){
+	if(account_favorite_id > 0){
+//		index = layer.confirm('确定要删除该产品？', {
+//		    btn: ['确定','取消'], //按钮
+//		    shade: false //不显示遮罩
+//		}, function(){
+			var _csrf = $("#_csrf").val();
+			$.ajax({
+				type: "POST",
+				   url: "/my/favorite/ajax-del-favorite.html",
+				   data: {'account_favorite_id':account_favorite_id,'_csrf':_csrf},
+				   dataType:'json',
+				   success: function(data){
+					   layer.msg( data.msg );
+					   location.reload();
+				   }
+			});
+//		}, function(){
+//		    layer.close(index);
+//		});
+	}
+}

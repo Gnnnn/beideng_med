@@ -1,0 +1,268 @@
+$(document).ready(function(e) {
+	$(".num-control-add").click(function(){
+		$(this).prev().val((parseInt($(this).prev().val())+1));
+	});
+	$(".num-control-minus").click(function(){
+		if($(this).next().val() > 1){
+			$(this).next().val((parseInt($(this).next().val())-1));
+		}else{
+			$(this).next().val(1);
+		}
+	});
+});
+
+/**
+ * 购物车价格计算
+ */
+function getTotal(){
+	if($("input[name='shopping_cart_id[]']:checked").length > 0){
+		var _csrf = $("#_csrf").val();
+		var shopping_cart_ids = new Array();
+		$.each($("input[name='shopping_cart_id[]']:checked"),function(){
+			shopping_cart_ids.push($(this).val());
+		});
+		$.ajax({
+			type: "POST",
+			url: "/cart/ajax-get-total-info.html",
+			data: {'shopping_cart_ids':shopping_cart_ids,'_csrf':_csrf},
+			dataType:'json',
+			success: function(data){
+				$("#selectNum").html(data.data.num);
+				$("#totalAmount").html("&yen; "+data.data.amount);
+			}
+		});
+	}else{
+		$("#selectNum").html('0');
+		$("#totalAmount").html("&yen; 0");
+	}
+}
+
+function selectAll(elem){
+	if($(elem).is(':checked')){
+		$("input[type='checkbox']").prop("checked",true);
+	}else{
+		$("input[type='checkbox']").removeAttr('checked');
+	}
+}
+
+/**
+ * 产品加入购物车
+ * @param goods_id
+ */
+function addCart(item_id){
+	if(item_id > 0){
+		var item_spec_price_id = $("#item_spec_price_id").val();
+		if(item_spec_price_id > 0){
+			var num = $("#num_"+item_id).val();
+			if(num > 0){
+				addCartBy(item_id,item_spec_price_id,num);
+			}else{
+				layer.msg('请输入购买的数量');
+			}
+		}else{
+			layer.msg("请选择规格");
+		}
+	}
+}
+
+/**
+ * 加入购物车
+ * @param item_id
+ */
+function addCartBy(item_id,item_spec_price_id,num){
+	if(item_id > 0 && item_spec_price_id> 0){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+			url: "/cart/ajax-modify.html",
+			data: {'item_id':item_id,'item_spec_price_id':item_spec_price_id,'num':num,'type':'add','_csrf':_csrf},
+			dataType:'json',
+			success: function(data){
+				if(data.code == 0){
+					location.href="/cart/index.html";
+				}else{
+					layer.msg( data.msg );
+				}
+			}
+		});
+	}
+}
+
+/**
+ * 编辑购物车
+ * @param goods_id
+ */
+function modifyCart(item_id,item_spec_price_id,type){
+	if(item_id > 0){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+			   url: "/cart/ajax-modify.html",
+			   data: {'item_id':item_id,'item_spec_price_id':item_spec_price_id,'type':type,'_csrf':_csrf},
+			   dataType:'json',
+			   success: function(data){
+				 if(data.code != 0){
+					 layer.msg(data.msg);
+				 }
+				 getTotal();
+//			     location.reload();
+			   }
+		});
+	}
+}
+
+/**
+ * 数量
+ * @param ele
+ * @param shopping_cart_id
+ */
+function modifyNum(ele,item_id,item_spec_price_id,type){
+	var num = $(ele).val();
+	if(num * 1 <= 0){
+		layer.msg('数量输入错误');
+		location.reload();
+	}
+	if(item_id > 0){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+			   url: "/cart/ajax-modify.html",
+			   data: {'item_id':item_id,'num':num,'item_spec_price_id':item_spec_price_id,'type':type,'_csrf':_csrf},
+			   dataType:'json',
+			   success: function(data){
+				   if(data.code != 0){
+						 layer.msg(data.msg);
+					 }
+				   getTotal();
+//				   location.reload();
+			   }
+		});
+	}
+}
+/**
+ * 单个删除
+ * @param shopping_cart_id
+ * @returns
+ */
+var index;
+function deleItem(shopping_cart_id){
+	if(shopping_cart_id >= 0){
+		index = layer.confirm('确定要删除该产品？', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(){
+			var _csrf = $("#_csrf").val();
+			$.ajax({
+				type: "POST",
+				url: "/cart/ajax-del.html",
+				data: {'shopping_cart_id':shopping_cart_id,'_csrf':_csrf},
+				dataType:'json',
+				success: function(data){
+					location.reload();
+				}
+			});
+		}, function(){
+		    layer.close(index);
+		});
+	}
+}
+/**
+ * 批量删除
+ */
+function deleAll(){
+	if($("input[name='shopping_cart_id[]']:checked").length <=0 ){
+		layer.msg("请选择要删除的产品");
+		return false;
+	}
+	index = layer.confirm('确定要删除选中的产品？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var ids = '';
+		$.each($("input[name='shopping_cart_id[]']:checked"),function(i,n){
+			if(i+1 == $("input[name='shopping_cart_id[]']:checked").length){
+				ids += $(this).val();
+			}else{
+				ids += $(this).val()+"_";
+			}
+		});
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+			   url: "/cart/ajax-deleall.html",
+			   data: {'ids':ids,'_csrf':_csrf},
+			   dataType:'json',
+			   success: function(data){
+			     location.reload();
+			   }
+		});
+	}, function(){
+	    layer.close(index);
+	});
+	
+}
+
+/**
+ * 去结算
+ */
+function go(){
+	if($("input[name='shopping_cart_id[]']:checked").length <= 0){
+		layer.msg('请选择产品');
+		return false;
+	}
+	var ids = '';
+	$.each($("input[name='shopping_cart_id[]']:checked"),function(i,n){
+		if(i+1 == $("input[name='shopping_cart_id[]']:checked").length){
+			ids += $(this).val();
+		}else{
+			ids += $(this).val()+"_";
+		}
+	});
+	
+	//提交商品信息检查（库存 、 价格。。。）
+	var _csrf = $("#_csrf").val();
+	$.ajax({
+		type: "POST",
+		   url: "/cart/ajax-check-item.html",
+		   data: {'ids':ids,'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+		     if(data.code == 0){
+		    	 $("#cart_form").submit()
+		     }else{
+		    	 layer.msg(data.msg);
+		     }
+		   }
+	});
+}
+
+/**
+ * 批量关注
+ * @returns {Boolean}
+ */
+function favoriteAll(){
+	if($("input[name='shopping_cart_id[]']:checked").length <=0 ){
+		layer.msg("请选择要关注的产品");
+		return false;
+	}
+	
+	var ids = '';
+	$.each($("input[name='shopping_cart_id[]']:checked"),function(i,n){
+		if(i+1 == $("input[name='shopping_cart_id[]']:checked").length){
+			ids += $(this).val();
+		}else{
+			ids += $(this).val()+"_";
+		}
+	});
+	var _csrf = $("#_csrf").val();
+	$.ajax({
+		type: "POST",
+		   url: "/cart/ajax-favorite-all.html",
+		   data: {'ids':ids,'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+			   layer.msg(data.msg);
+		   }
+	});
+	
+}

@@ -1,0 +1,95 @@
+/**
+ * 全选操作
+ */
+function selectAll(elem){
+	if($(elem).is(":checked")){
+		$("input[type='checkbox']").prop("checked",true);
+	}else{
+		$("input[type='checkbox']").removeAttr("checked");
+	}
+}
+
+/**
+ * 删除记录
+ */
+var index;
+function delBrowse(browse_id){
+	if(browse_id > 0){
+		index = layer.confirm('确定要删除该条记录？', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(){
+			var _csrf = $("#_csrf").val();
+			$.ajax({
+				type:'post',
+				url:'/my/browse/ajax-del-browse.html',
+				data:{'browse_id':browse_id,'_csrf':_csrf},
+				dataType:'json',
+				success:function(data){
+					location.reload();
+				}
+			});
+		}, function(){
+		    layer.close(index);
+		});
+	}
+}
+
+/**
+ * 批量删除
+ */
+function delAllBrowses(){
+	if($("input[name='ids[]']:checked").length <=0 ){
+		layer.msg("请选择要取消关注的产品");
+		return false;
+	}
+	
+	index = layer.confirm('确定要清空浏览历史？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var ids = '';
+		$.each($("input[name='ids[]']:checked"),function(i,n){
+			if(i+1 == $("input[name='ids[]']:checked").length){
+				ids += $(this).val();
+			}else{
+				ids += $(this).val()+"_";
+			}
+		});
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+		   url: "/my/browse/ajax-delall-browse.html",
+		   data: {'ids':ids,'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+		     location.reload();
+		   }
+		});
+	}, function(){
+	    layer.close(index);
+	});
+}
+
+/**
+ * 清空浏览记录
+ */
+function clearAll(){
+	index = layer.confirm('确定要清空浏览历史？', {
+	    btn: ['确定','取消'], //按钮
+	    shade: false //不显示遮罩
+	}, function(){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+		   url: "/my/browse/ajax-clear-all.html",
+		   data: {'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+		     location.reload();
+		   }
+		});
+	}, function(){
+	    layer.close(index);
+	});
+}

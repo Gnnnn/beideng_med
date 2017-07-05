@@ -1,0 +1,180 @@
+$(document).ready(function(e) {
+	addBrowse();
+	initSpec();
+});
+
+//初始化规格选择项
+function initSpec(){
+	var item_id = $("#item_id").val();
+	if(item_id){
+		$.ajax({
+			type: "GET",
+			url: "/goods/ajax-get-default-price.html",
+			data: {'item_id':item_id},
+			dataType:'json',
+			success: function(data){
+				if(data.code == 0){
+					if(data.data.shop_price * 1 > 0 || data.data.online_price *1 > 0){
+						
+						$("#item_spec_price_id").val(data.data.item_spec_price_id);
+						$("#shop_price_span").html(data.data.shop_price);
+						$("#price_span").html(data.data.online_price);
+						$("#has_price_dt").removeClass("hide");
+						$("#has_price_dd").removeClass("hide");
+						$("#addCartA").removeClass("hide");
+					}
+					
+					var specIds= new Array(); //定义一数组 
+					specIds=data.data.item_spec_ids.split("_"); //字符分割 
+					
+					//选中默认的规格
+					$.each($("span[name='spec_span']"),function(i,n){
+						if(specIds.indexOf($(this).attr('alt')) >= 0){
+							$(this).parent().addClass('active-check');
+						}
+					});
+					
+				}else{
+					$.each($(".visualCheck-content"),function(i,n){
+						$(this).find("label:eq(0)").addClass('active-check');
+					});
+					
+					var spec_num = $("dd[class='visualCheck-content']").length;
+					
+					var spec_ids = new Array();
+					
+					$.each($("span[name='spec_span']"),function(){
+						if($(this).parent().hasClass('active-check')){
+							spec_ids.push($(this).attr('alt'));
+						}
+					});
+					spec_ids.sort(function(a,b){return a-b;});//从小到大排序
+					//当选择了所有的规格后才查询价格
+					if(spec_ids.length == spec_num){
+						var ids = '';
+						for(var i=0;i<spec_ids.length;i++){
+							if(i+1 == spec_ids.length){
+								ids += spec_ids[i];
+							}else{
+								ids += spec_ids[i] + '_';
+							}
+						}
+						var _csrf = $("#_csrf").val();
+						$.ajax({
+							type: "POST",
+							url: "/goods/ajax-spec-info.html",
+							data: {'item_id':item_id,'spec_ids':ids,'_csrf':_csrf},
+							dataType:'json',
+							success: function(data){
+								if(data.code == '0'){
+									$("#item_spec_price_id").val(data.data.item_spec_price_id);
+									$("#shop_price_span").html(data.data.shop_price);
+									$("#price_span").html(data.data.online_price);
+									$("#has_price_dt").removeClass("hide");
+									$("#has_price_dd").removeClass("hide");
+									$("#addCartA").removeClass("hide");
+								}else{
+									$("#addCartA").addClass("hide");
+									$("#has_price_dt").addClass("hide");
+									$("#has_price_dd").addClass("hide");
+								}
+							}
+						});
+					}
+				}
+			}
+		});
+	}
+}
+
+function changeMaybe(){
+	var f = $("#f").val();
+	var _csrf = $("#_csrf").val();
+	$.ajax({
+		type: "POST",
+		url: "/goods/ajax-other-browse.html",
+		data: {'f':f,'_csrf':_csrf},
+		dataType:'json',
+		success: function(data){
+			if(data.code == 0){
+				$("#maybe").html(data.data);
+				$("#f").val($("#f").val()*1+1);
+			}else{
+				
+				layer.msg(data.msg); 
+			}
+		}
+	});
+}
+
+/**
+ * 查询规格价格
+ * @param item_id
+ * @param spec_id
+ */
+function selectSpec(item_id,spec_id,elem){
+	if(item_id > 0 && spec_id >0){
+		var spec_num = $("dd[class='visualCheck-content']").length;
+		$(elem).parent().siblings('label').removeClass('active-check');
+		$(elem).parent().addClass('active-check');
+		
+		var spec_ids = new Array();
+		
+		$.each($("span[name='spec_span']"),function(){
+			if($(this).parent().hasClass('active-check')){
+				spec_ids.push($(this).attr('alt'));
+			}
+		});
+		spec_ids.sort(function(a,b){return a-b;});//从小到大排序
+		//当选择了所有的规格后才查询价格
+		if(spec_ids.length == spec_num){
+			var ids = '';
+			for(var i=0;i<spec_ids.length;i++){
+				if(i+1 == spec_ids.length){
+					ids += spec_ids[i];
+				}else{
+					ids += spec_ids[i] + '_';
+				}
+			}
+			var _csrf = $("#_csrf").val();
+			$.ajax({
+				type: "POST",
+				url: "/goods/ajax-spec-info.html",
+				data: {'item_id':item_id,'spec_ids':ids,'_csrf':_csrf},
+				dataType:'json',
+				success: function(data){
+					if(data.code == '0'){
+						$("#item_spec_price_id").val(data.data.item_spec_price_id);
+						$("#shop_price_span").html(data.data.shop_price);
+						$("#price_span").html(data.data.online_price);
+						$("#has_price_dt").removeClass("hide");
+						$("#has_price_dd").removeClass("hide");
+						$("#addCartA").removeClass("hide");
+					}else{
+						$("#addCartA").addClass("hide");
+						$("#has_price_dt").addClass("hide");
+						$("#has_price_dd").addClass("hide");
+					}
+				}
+			});
+		}
+	}
+}
+
+/**
+ * 添加浏览记录
+ */
+function addBrowse(){
+	var item_id = $("#item_id").val();
+	var _csrf = $("#_csrf").val();
+	if(item_id > 0){
+		$.ajax({
+			type: "POST",
+			url: "/goods/ajax-add-browse.html",
+			data: {'item_id':item_id,'_csrf':_csrf},
+			dataType:'json',
+			success: function(data){
+			}
+		});
+	}
+}

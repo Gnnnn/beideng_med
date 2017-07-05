@@ -1,0 +1,95 @@
+$(function(){
+	// 品牌介绍 显示隐藏更多内容
+    $(".extend-content").click(function(){
+        $(".brand-intro-text").addClass("extend");
+        $(this).hide();
+        $(this).next("div").show();
+    });
+
+    $(".shrink-content").click(function(){
+        $(".brand-intro-text").removeClass("extend");
+        $(this).hide();
+        $(this).prev("div").show();
+    })
+    
+    $(".category-filter-wrapper").each(function(e){
+      var height = $(this).height();
+      if (height > 60){
+        $(this).addClass("category-filter-shrink");
+        $(this).children(".more").show();
+      }
+      else{
+
+      }
+    });
+
+
+    // 隐藏行
+    $(".category-filter-wrapper .more").click(function(){
+      $(this).parent(".category-filter-wrapper").addClass("category-filter-extend");
+      $(this).parent(".category-filter-wrapper").parent(".category-filter-content").css("height", "60px");
+      $(this).hide();
+      $(this).next(".fold").show();
+    });
+
+    $(".category-filter-wrapper .fold").click(function(){
+      $(this).parent(".category-filter-wrapper").removeClass("category-filter-extend");
+      $(this).parent(".category-filter-wrapper").parent(".category-filter-content").css("height", "auto");
+      $(this).hide();
+      $(this).prev(".more").show();
+    });
+
+    // 隐藏列
+    $(".more-line-show").click(function(){
+      $(this).parent("td").parent("tr").hide();
+      $(this).parent("td").parent("tr").nextAll(".more-line").show();
+    });
+
+    $(".more-line-fold").click(function(){
+      $(this).parent("td").parent("tr").hide()
+      $(".more-line").hide();
+      $(".more-line-trigger-content").show();
+    });
+    
+	/*$(".num-control-add").click(function(){
+		$(this).prev().val((parseInt($(this).prev().val())+1));
+	});
+	$(".num-control-minus").click(function(){
+		if($(this).next().val() > 1){
+			$(this).next().val((parseInt($(this).next().val())-1));
+		}else{
+			$(this).next().val(1);
+		}
+	});*/
+  });
+
+/**
+ * 批量关注商品
+ * @returns {Boolean}
+ */
+function batchFavoriteGoods(){
+	if($("input[name='item_id[]']:checked").length <=0 ){
+		layer.msg("请先选择需要关注的产品");
+		return false;
+	}
+	
+	var ids = '';
+	$.each($("input[name='item_id[]']:checked"),function(i,n){
+		if(i+1 == $("input[name='item_id[]']:checked").length){
+			ids += $(this).val();
+		}else{
+			ids += $(this).val()+"_";
+		}
+	});
+	var _csrf = $("#_csrf").val();
+	$.ajax({
+		type: "POST",
+		   url: "/goods/ajax-batch-favorite.html",
+		   data: {'ids':ids,'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+			   layer.msg(data.msg);
+		   }
+	});
+}
+

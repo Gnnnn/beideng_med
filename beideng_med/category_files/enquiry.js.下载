@@ -1,0 +1,239 @@
+$(document).ready(function(e) {
+	$(".more-info").click(function(){
+		$(".form-group").removeClass("hide");
+		$(this).parent().hide();
+	});
+	
+	$("#company").bind('blur',function(){
+		if(!$("input[name='company']").val()){
+			layer.tips('请输入公司名称','#company');
+		}
+	});
+	$("#contact").bind('blur',function(){
+		if(!$("input[name='contact']").val()){
+			layer.tips('请输入联系人','#company');
+		}
+	});
+	var mobileReg = new RegExp("^[1-9][0-9]{10}$");
+	$("#mobile_number").bind('blur',function(){
+		if(!$("input[name='mobile_number']").val() || !mobileReg.test($("input[name='mobile_number']").val())){
+			layer.tips('请正确输入手机号码','#mobile_number');
+		}
+	});
+});
+var index;
+function selectEnquiryAll(elem){
+	if($(elem).is(':checked')){
+		$("input[name='item_id[]']").prop("checked",true);
+	}else{
+		$("input[name='item_id[]']").removeAttr('checked');
+	}
+}
+
+
+function check(){
+	if($("input[name='item_id[]']:checked").length <= 0){
+		layer.msg('请选择你要询价的产品');
+		return false;
+	}
+	if(!$("input[name='company']").val()){
+		layer.tips('请输入公司名称','#company');
+		return false;
+	}
+	if(!$("input[name='contact']").val()){
+		layer.tips('请输入联系人','#contact');
+		return false;
+	}
+	if(!$("input[name='mobile_number']").val()){
+		layer.tips('请输入手机号码','#mobile_number');
+		return false;
+	}
+	$.ajax({
+		type: "get",
+		url: '/login/ajax-is-login.html',
+		dataType:'json',
+		success: function(data){
+			if(data.code == -1){
+				var date = new Date();
+				var mtime = date.getTime()+''+date.getMilliseconds();
+			   $.ajax({
+					type: "get",
+					url: configJs.ssoSite + '/login/quick-login.html'+ '?jsoncallback=?&mtime=' + mtime,
+					data:{'backurl':location.href},
+					dataType:'json',
+					success: function(data){
+						index = layer.tab({
+							title:['立即登录','padding-left:20px'],
+						    area: ['400px', '370px'],
+						    content: data.data
+						});
+						
+					}
+				});
+			}else{
+				$("#form").submit();
+			}
+		}
+	});
+	
+}
+
+function addEnquiryCart(item_id){
+	if(item_id > 0){
+		var _csrf = $("#_csrf").val();
+		var num = $("#num_" + item_id).val();
+		$.ajax({
+			type: "POST",
+			   url: "/enquiry/ajax-add-cart.html",
+			   data: {'item_id':item_id,'_csrf':_csrf,'num':num},
+			   dataType:'json',
+			   success: function(data){
+				   layer.msg(data.msg);
+				   if(data.code == 0){
+					   $.ajax({
+							type: "get",
+							   url: "/enquiry/ajax-get.html",
+							   dataType:'json',
+							   success: function(data1){
+								   $("strong[name='enquiryNum']").html(data1.num);
+							   }
+						});
+				   }
+			   }
+		});
+	}
+}
+
+/**
+ * 批量添加询价篮
+ * @returns {Boolean}
+ */
+function batchAddEnquiryCart(){
+	if($("input[name='item_id[]']:checked").length <=0 ){
+		layer.msg("请先选择需要添加询价篮的产品");
+		return false;
+	}
+	
+	var ids = '';
+	$.each($("input[name='item_id[]']:checked"),function(i,n){
+		if(i+1 == $("input[name='item_id[]']:checked").length){
+			ids += $(this).val();
+		}else{
+			ids += $(this).val()+"_";
+		}
+	});
+	var _csrf = $("#_csrf").val();
+	$.ajax({
+		type: "POST",
+		   url: "/enquiry/ajax-batch-add-cart.html",
+		   data: {'ids':ids,'_csrf':_csrf},
+		   dataType:'json',
+		   success: function(data){
+			   layer.msg(data.msg);
+			   if(data.code == 0){
+				   $.ajax({
+						type: "get",
+						   url: "/enquiry/ajax-get.html",
+						   dataType:'json',
+						   success: function(data1){
+							   $("strong[name='enquiryNum']").html(data1.num);
+						   }
+					});
+			   }
+		   }
+	});
+}
+
+/**
+ * 删除询价产品
+ * @param item_id
+ */
+function deleItem(item_id){
+	if(item_id > 0){
+		index = layer.confirm('确定要删除该产品？', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(){
+			var _csrf = $("#_csrf").val();
+			$.ajax({
+				type: "POST",
+				   url: "/enquiry/ajax-dele.html",
+				   data: {'item_id':item_id,'_csrf':_csrf},
+				   dataType:'json',
+				   success: function(data){
+					  location.reload();
+				   }
+			});
+		}, function(){
+		    layer.close(index);
+		});
+	}
+}
+
+/**
+ * 修改状态
+ * @param enquiry_id
+ */
+function changeStatus(enquiry_id){
+	if(enquiry_id > 0){
+		var _csrf = $("#_csrf").val();
+		$.ajax({
+			type: "POST",
+			   url: "/my/enquiry/ajax-modify.html",
+			   data: {'enquiry_id':enquiry_id,'status':2,'_csrf':_csrf},
+			   dataType:'json',
+			   success: function(data){
+				   layer.msg(data.msg);
+				  location.reload();
+			   }
+		});
+	}
+}
+
+function checkReply(){
+	if(!$("#message").val()){
+		layer.msg("请填写咨询内容");
+		return false;
+	}
+}
+
+/**
+ * 立即询价
+ */
+function enquirynow(item_id){
+	$.ajax({
+		type: "get",
+		url: "/enquiry/ajax-quick-enquiry.html",
+		data:{'item_id':item_id},
+		dataType:'json',
+		success: function(data){
+			/*if(data.code == -1){
+				var date = new Date();
+				var mtime = date.getTime()+''+date.getMilliseconds();
+			   $.ajax({
+					type: "get",
+					url: configJs.ssoSite + '/login/quick-login.html'+ '?jsoncallback=?&mtime=' + mtime,
+					data:{'backurl':location.href},
+					dataType:'json',
+					success: function(data){
+						index = layer.tab({
+							title:['立即登录','padding-left:20px'],
+						    area: ['400px', '370px'],
+						    content: data.data
+						});
+						
+					}
+				});
+			}else{*/
+				index = layer.tab({
+					title:['立即询价','padding-left:30px'],
+					area: ['640px', '580px'],
+					tab: [{
+						title: '', 
+						content: data.data
+					}]
+				});
+			//}
+		}
+	});
+}

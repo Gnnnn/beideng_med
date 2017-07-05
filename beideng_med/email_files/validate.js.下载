@@ -1,0 +1,261 @@
+/**
+ * do login
+ * John
+ */
+$(document).ready(function($e){
+	
+	var vedengJs = new VedengJs();
+	
+	var changCaptcha = $('#changCaptcha_001');
+	
+	var regtype = $('#regtype');
+	var getVerifyCode = $('#getVerifyCode');
+	
+	var mobile = $('#mobile');
+	var email = $('#email');
+	
+	var params = $('#params').val();
+	
+	var smsVerifyCode=$('#sms_verify_code');
+	var captcha=$('#captcha');
+	
+	var _csrf = $('#_csrf');
+	
+	var formUrl = $('#formUrl');
+	
+	/////////////////
+	var emailPattern = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    var mobilePattern = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+	/////////////////
+
+	//////////////
+   $(changCaptcha).click(function(e){
+	   var captchaImg = $(this).prev('img');
+	   var src = $(captchaImg).attr('src');
+	   var srcArr = src.split('?');
+	   
+	   $(captchaImg).attr("src",srcArr[0] + '?key=bind&v=' + vedengJs.getMillisecond());
+	   });
+	
+	
+	//
+	$(mobile).focus(function(e){
+		vedengJs.closeError(this);
+		});
+	//
+	$(captcha).focus(function(e){
+		vedengJs.closeError(this);
+		});
+		
+	
+	$(smsVerifyCode).focus(function(e){
+		vedengJs.closeError(this);
+		});
+	
+	
+	//////////////
+   $(getVerifyCode).click(function(e){
+	   var url = '/validate/verifycode.html';
+	   var isTimeout= $('#is_timeout_001');
+	   var totalTime = 60;
+	   if($(isTimeout).val() == "1"){
+			timeout = totalTime;
+			//验证手机号
+		  	if(!mobilePattern.test($(mobile).val())){
+			   var message = $(mobile).attr('data-messages');
+			   vedengJs.openError(mobile,message);//
+			   return false;
+			   }
+			else{
+				vedengJs.removeError($(mobile));
+				}
+			
+			//验证码
+		  	if(captcha.val().length !== 4 ){
+				var message = $(captcha).attr('data-messages');
+				vedengJs.openError(captcha,message,true);
+				return false;
+			}
+			
+			
+			//	
+		   	$(this).css('background-color','#EEE');
+		   	$(isTimeout).val("0");
+		   	$.getJSON(url,{'mobile':$(mobile).val(),'captcha':captcha.val(),'key':'bind'},function(res){
+		   		
+				if(res.code == 1){
+					 $(getVerifyCode).html('验证码已发送到手机');//
+					 timerHd = setInterval("timer()",1000);
+					}
+					else{
+						 if(res.code == -1){
+							 timeout = res.data
+							 $(getVerifyCode).html(totalTime + '秒内只能获取一次');//
+							 timerHd = setInterval("timer()",1000);
+							 }
+						 else if(res.code == -2){
+							 vedengJs.openError(mobile,  $(mobile).attr('data-messages'));//
+							 $(isTimeout).val(1);
+							 }
+						 else if(res.code == -4){
+							 vedengJs.openError(captcha,  '验证码错误');//
+							 $(isTimeout).val(1);
+							 $(changCaptcha).click();
+							 }
+						 else{
+							vedengJs.openError(captcha,  '非法访问，未能生成验证码');//
+							$(changCaptcha).click();
+							}
+						}
+				
+		   		});
+		   }
+	   
+	   
+   });
+	
+	
+   // enter key
+	$(document).keydown(function(event){
+		if(event.keyCode ==13){
+			if($(email).is(":focus") 
+				|| $(mobile).is(":focus") 
+				|| $(verify_code).is(":focus") 
+				|| $(captcha).is(":focus")){
+				$('#formSubmit').click();
+				}
+		}
+	});
+   
+   	//form submit 
+    $('#formSubmit').click(function(e) {
+	   if($(regtype).val() =="mobile"){
+		   if(!mobilePattern.test($(mobile).val())){
+			   var message = $(mobile).attr('data-messages');
+			   vedengJs.openError(mobile,message);//
+			   return false;
+			   }
+			else{
+				vedengJs.closeError($(mobile));
+				}
+			if($(smsVerifyCode).val()==''){
+				var message = $(smsVerifyCode).attr('data-messages');
+				vedengJs.openError(smsVerifyCode,message,true);//
+				return false;
+		   		}
+			else{
+				vedengJs.closeError($(captcha));
+				}
+				
+			//提交表单
+			$.post($(formUrl).val() + '?mtime=' + vedengJs.getMillisecond(),
+				{'AccountForm[regtype]':regtype.val(),
+					'AccountForm[mobile]':mobile.val(),
+					'AccountForm[smsVerifyCode]':smsVerifyCode.val(),
+					'AccountForm[_csrf]':_csrf.val(),
+				},
+				
+				function(res){
+					
+					if(res.code === 1 || res.code === 0 ){
+						location.href = res.url;
+						}
+					else if(res.code === -2){
+						var message = res.message;
+						vedengJs.openError(mobile,message);//
+						}
+						
+					else if(res.code === -3){
+						var message = res.message;
+						vedengJs.openError(mobile,message);//
+						}	
+					else if(res.code === -4){
+						var message = res.message;
+						vedengJs.openError(smsVerifyCode,message);//
+						$(changCaptcha).click();
+						}	
+					else{
+						var message = '未知错误';
+						vedengJs.openError(smsVerifyCode,message);//
+						$(changCaptcha).click();
+						}
+					},
+				'json');
+		   }
+		  
+		//////////////////
+		if($(regtype).val() =="email"){
+		   if(!emailPattern.test($(email).val())){
+			   var message = $(email).attr('data-messages');
+			   vedengJs.openError(email,message);//
+			   return false;
+			   }
+			else{
+				vedengJs.closeError($(email));
+				}   
+				
+			if($(captcha).val().length != 4){
+				var message = $(captcha).attr('data-messages');
+				vedengJs.openError(captcha,message,true);//
+				return false;
+		   		}
+			else{
+				vedengJs.closeError($(captcha));
+				}
+		   }
+		//提交表单
+		$.post($(formUrl).val() + '?mtime=' + vedengJs.getMillisecond(),
+				{'AccountForm[regtype]':regtype.val(),
+					'AccountForm[email]':email.val(),
+					'AccountForm[verifyCode]':captcha.val(),
+					'AccountForm[_csrf]':_csrf.val(),
+				},
+				
+				function(res){
+					if(res.code === 1 || res.code === 0){
+						location.href = res.url;
+						}
+					else if(res.code === -2){
+						var message = res.message;
+						vedengJs.openError(email,message);//
+						}
+						
+					else if(res.code === -3){
+						var message = res.message;
+						vedengJs.openError(email,message);//
+						}	
+					else if(res.code === -4){
+						var message = res.message;
+						vedengJs.openError(captcha,message);//
+						$(changCaptcha).click();
+						}	
+					else{
+						var message = '未知错误';
+						vedengJs.openError(captcha,message);//
+						$(changCaptcha).click();
+						}
+					},
+				'json');
+		
+	});
+
+});
+
+/***********************
+定时器，发送短信的间隔时间
+***********************/
+var timer = function (){
+	timeout --;
+	var getVerifyCode = $('#getVerifyCode');
+	var isTimeout = $('#is_timeout_001');
+	
+	$(getVerifyCode).html(timeout + '秒后可重新获取');
+	if(timeout == 0){
+		clearInterval(timerHd);
+		$(getVerifyCode).html('获取验证码');
+		$(getVerifyCode).css('background-color','#EEE');
+		$(isTimeout).val("1");
+		}
+		
+		
+	}

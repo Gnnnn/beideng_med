@@ -1,0 +1,73 @@
+$(document).ready(function() {
+    var topOffset = -100; //浮层离1楼顶端的高度
+    var bottomMargin = 20;
+    var showHeight = 400;
+    var showFullHeight = $(document).height();
+    var screenHeight = $(window).height();
+    var floorObj = $('.floors-nav');
+    var floorContent = $('.box-index-floor'); //楼层的标识符
+    var floorItems = $(floorObj).children('li');
+    // $(floorObj).hide();
+    // * hiding back-top
+    $(".back-top").hide();
+    $(".floors-nav").removeClass("floors-nav-fix");
+    $(window).scroll(function() {
+        var scrollY = $(window).scrollTop();
+        //////////////////////////
+        // if(floorObj.offset().top > showHeight ){
+        //  $(floorObj).show();
+        //  }
+        // else{
+        //  $(floorObj).hide();
+        //  }
+        // if(floorObj.offset().top > showFullHeight){
+        //  $(floorObj).hide();
+        //  }
+        //////////////////////////
+        $(floorItems).each(function(index, element) {
+            var floorMenu = $(floorItems[index]).children('a');
+            var floorAnchor = $(floorMenu.attr('href')); //楼层锚点位置
+            if ($(floorAnchor).offset().top < floorObj.offset().top - topOffset && $(floorAnchor).offset().top > floorObj.offset().top - (topOffset + $(floorContent).height() + bottomMargin)) {
+                $(floorMenu).parent().addClass('active');
+            } else {
+                $(floorMenu).parent().removeClass('active');
+            }
+        });
+    });
+});
+$(document).scroll(function() {
+    var scrollY = $(window).scrollTop();
+    //console.log(scrollY);
+    if (scrollY >= 525) {
+        $(".floors-nav").addClass("floors-nav-fix");
+    } else {
+        $(".floors-nav").removeClass("floors-nav-fix");
+    }
+});
+$(function() {
+    // 首页滚动banner
+    $(".index-slide-banner").slide({
+        mainCell: ".bd ul",
+        titCell: ".hd",
+        effect: "leftLoop",
+        autoPage: true,
+        autoPlay: true
+    });
+    // 品牌列表划上效果
+    /*$(".brand-list .img").on({
+        mouseenter: function(){
+            //$(this).children(".name").stop().animate({"margin-top": "-45px",'height':'43px','borderWidth':'0'});
+        },
+        mouseleave: function(){
+            //$(this).children(".name").stop().animate({"margin-top": "0px",'height':'0' ,'borderWidth':'0'});
+        }
+    });*/
+    $(".brand-list .img").on({
+        mouseenter: function() {
+            $(this).children(".name").show();
+        },
+        mouseleave: function() {
+            $(this).children(".name").hide();
+        }
+    })
+});

@@ -1,0 +1,10 @@
+$(document).ready(function(){	
+	//登录信息处理
+	$.ajax({
+		type: "GET",
+		url: "/default/ajax-init.html",
+		dataType:'json',
+		success: function(data){
+		}
+	});
+});

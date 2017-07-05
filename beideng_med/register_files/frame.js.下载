@@ -1,0 +1,10 @@
+$(function(){
+	$(".header-bar-right .item-toggle").on({
+		mouseenter: function(){
+			$(this).children(".toggle").addClass("active").next(".toggle-content").show();
+		},
+		mouseleave: function(){
+			$(this).children(".toggle").removeClass("active").next(".toggle-content").hide();
+		}
+	});
+});

@@ -1,0 +1,23 @@
+$(function(){
+
+    $(".filter-table .actions .btn").click(function(){
+            if($(this).hasClass("extend")){
+                $(this).hide().next(".shrink").css("display", "inline-block").parent("td").prev("td").children(".tag-content").removeClass("shrink");
+            }
+            if($(this).hasClass("shrink")){
+                $(this).hide().prev(".extend").css("display", "inline-block").parent("td").prev("td").children(".tag-content").addClass("shrink");
+            }
+        });
+
+        $(".extend-trigger span").click(function(){
+            if($(this).hasClass("extend")){
+                $(this).hide().next(".shrink").css("display", "inline-block");
+                $(".hide-line").show();
+            }
+            if($(this).hasClass("shrink")){
+                $(this).hide().prev(".extend").css("display", "inline-block");
+                $(".hide-line").hide();
+            }
+        });
+
+});

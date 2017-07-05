@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0093)http://passport.vedeng.com/validate.html?backurl=http://www.vedeng.com/my/account/secure.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>修改绑定手机</title>
+    <link rel="stylesheet" href="./phone_files/ucenter_style.css">
+	    <script src="./phone_files/jquery-1.11.3.min.js.下载"></script>
+    <script src="./phone_files/global.js.下载"></script>
+    <script src="./phone_files/frame.js.下载"></script>
+    <script src="./phone_files/checkPassword.js.下载"></script>
+<script src="./phone_files/validate.js.下载"></script></head>
+<body>
+<div class="header global-header">
+	<div class="header-bar">
+		<div class="container">
+			<div class="header-bar-right">
+				<a href="index.html" class="item">回到首页</a>
+				
+			</div>
+		</div>
+	</div>
+	<div class="header-main">
+		<div class="container">
+			<h2 class="hotline"><i class="imgicon imgicon-phone"></i>4006-999-569</h2>
+			<h1 id="logo"><a href="http://www.vedeng.com/" class="img"><img src="./phone_files/logo.png" alt=""></a></h1>
+		</div>
+	</div>
+</div>
+
+
+<!-- 找回密码 -->
+<div class="content ucenter-common-frame">
+		<div class="container">
+			<div class="main-container" style="width: 100%;">
+				<div class="page-title">
+					<h2>修改绑定手机</h2>
+				</div>
+				<div class="panel panel-fullpage panel-form-centered panel-modify-pass">
+                	<div class="panel-body list">
+                    	<input id="regtype" type="hidden" name="AccountForm[regtype]" value="mobile">
+                        <input name="_csrf" type="hidden" id="_csrf" value="c2NUakMyYXk9KR8eAH4SOxEoBgMQYikgGAI2KAxBBB9eNWY6EUcvFA==">
+                        <input name="AccountForm[formUrl]" id="formUrl" type="hidden" value="http://passport.vedeng.com/validate.html?backurl=http%3A%2F%2Fwww.vedeng.com%2Fmy%2Faccount%2Fsecure.html">
+                        <input name="AccountForm[params]" id="params" type="hidden" class="form-control" value="backurl=http%3A%2F%2Fwww.vedeng.com%2Fmy%2Faccount%2Fsecure.html">
+                        <input type="hidden" id="is_timeout_001" value="1">
+                        <div class="item item-input">
+                			<label for="mobile" class="input-label"><b class="asterisk">*</b>手机号：</label>
+                			<div class="input-content">
+                			 <input class="form-control input-full" type="text" name="AccountForm[mobile]" id="mobile" value="18717895270" maxlength="15" placeholder="请输入手机号码" data-messages="手机号码格式有误, 请输入正确的手机号码">
+                			 </div>
+                		</div>
+                		<div class="item item-input">
+                			<label for="captcha" class="input-label"><b class="asterisk">*</b>验证码：</label>
+                			<div class="input-content">
+                			<input class="form-control input-xs" type="text" name="AccountForm[captcha]" id="captcha" maxlength="4" placeholder="右图的字符" data-messages="请输入验证码">
+                			</div>
+                			<img src="./phone_files/captcha.html" alt="">
+				            <a href="javascript:" id="changCaptcha_001">刷新</a>
+                		</div>
+                		<div class="item item-input">
+                				<label for="sms_verify_code" class="input-label"><b class="asterisk">*</b>短信验证码：</label>
+                				<div class="input-content">
+                    				<input type="text" name="AccountForm[smsVerifyCode]" id="sms_verify_code" class="form-control input-xs" maxlength="6" placeholder="短信验证码">
+                    				<i class="input-icon iconfont iconfont-roundclosefill"></i>
+                    				<span class="error-text">请输入短信验证码</span>
+                				</div>
+                				<a href="javascript:" id="getVerifyCode" class="btn btn-default">获取验证码</a>
+                			</div>
+                		<div class="item btn-content">
+                			<a href="javascript:" id="formSubmit" class="btn btn-submit">提交验证</a>
+                		</div>
+                	</div>
+                </div>
+			</div>
+		</div>
+	</div>
+
+<!-- 找回密码结束 -->
+
+<div class="footer">
+	
+	<div class="container">
+		
+		<div class="about-links login-footer">
+			<p class="nav">
+				<a href="http://www.vedeng.com/help/view/11.html" target="_blank">关于我们</a>|<a href="http://www.vedeng.com/help/view/10.html" target="_blank">联系我们</a>|<a href="http://www.vedeng.com/help/view/9.html" target="_blank">法律声明</a>|<a href="http://www.vedeng.com/help/view/8.html" target="_blank">隐私声明</a>|<a href="http://www.vedeng.com/qxinfo/jkqx.html" target="_blank">器械数据库</a>
+			</p>
+			<p class="copyright">
+				Copyright © 2010-2012 VEDENG Corporation All Rights Reserved ICP备案证书号:<a href="http://www.miibeian.gov.cn/" rel="nofollow" target="_blank">苏ICP备11075436号</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+</body></html>
